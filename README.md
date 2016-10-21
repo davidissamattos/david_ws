@@ -13,7 +13,6 @@ Some considerations
 
 Dependencies
 * Turtlebot complete installation
-* April tag package
 * Pocketsphinx package
     * http://jokla.me/robotics/speech-recognition-ros/
     * http://wiki.ros.org/pocketsphinx
@@ -23,3 +22,5 @@ Dependencies
 * WASP Summer school packages (not totally sure if I am really depending on something from there)
     * https://github.com/WASP2016
     * There might be some conflicts between pierg repository and the WASP Summer School repository
+* April tag package
+    * This package is contained inside the WASP Summer School and pierg repo. In pierg package there are some modifications in the source files for the april tag recognition to include some information of the april tags in the image (what are the pixels, center, image size...)
