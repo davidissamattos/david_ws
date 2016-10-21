@@ -3,7 +3,8 @@ This repository contains some ROS packages downloaded from the internet and crea
 
 I am testing only with ROS Indigo using Ubuntu 14.04 LTS on Parallels 11 Mac and on Ubuntu 14.04 LTS in a full linux Lenovo computer.
 Some issues with this setup:
-* The gazebo simulator for 
+* The gazebo simulator for the virtual machine does not work properly
+* The lenovo computer internal microphone is really bad
 
 Some considerations
 * I am self-experimenting in Human-Robot Interaction in physical proxemic distance.
