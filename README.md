@@ -15,5 +15,11 @@ Dependencies
 * Turtlebot complete installation
 * April tag package
 * Pocketsphinx package
-* WASP message package with some modifications (see pierg cht2 repository)
+    * http://jokla.me/robotics/speech-recognition-ros/
+    * http://wiki.ros.org/pocketsphinx
+    * http://www.speech.cs.cmu.edu/tools/lmtool.html
+* WASP message package and maybe some other stuff developed in the WASP Autonomous system course
+    * https://github.com/pierg/wasp_cht2_catkin
 * WASP Summer school packages (not totally sure if I am really depending on something from there)
+    * https://github.com/WASP2016
+    * There might be some conflicts between pierg repository and the WASP Summer School repository
