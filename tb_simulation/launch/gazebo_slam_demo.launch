@@ -1,0 +1,12 @@
+<launch>
+	<!-- Launching Gazebo with turtlebot -->
+	<include file="$(find turtlebot_gazebo)/launch/turtlebot_world.launch" />
+	
+	<!-- Launching Gazebo with turtlebot slam function and tuning some parameters so we dont have problems with the rotation -->
+	<include file="$(find turtlebot_gazebo)/launch/amcl_demo.launch"/>
+	<param name="/move_base/DWAPlannerROS/max_rot_vel" value="1.0"/>
+	<param name="/move_base/DWAPlannerROS/acc_lim_theta" value="10.0"/>
+	
+	<!-- Launching RVIZ for the turtlebot with the navigation functions -->
+	<include file="$(find turtlebot_rviz_launchers)/launch/view_navigation.launch" />
+</launch>

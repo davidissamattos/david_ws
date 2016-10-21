@@ -1,0 +1,6 @@
+<launch>
+  <node name="recognizer" pkg="pocketsphinx" type="recognizer.py">
+    <param name="lm" value="$(find tb_self_experimentation)/misc/hri/3001.lm"/>
+    <param name="dict" value="$(find tb_self_experimentation)/misc/hri/3001.dic"/>
+  </node>
+</launch>
