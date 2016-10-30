@@ -51,9 +51,11 @@ add_executable(april_tags src/april_tag_detection.cpp)
 target_link_libraries(april_tags ${catkin_LIBRARIES})
 add_dependencies(april_tags april_tags)
 
-add_executable(tag_filter src/tag_filter.cpp)
-target_link_libraries(tag_filter ${catkin_LIBRARIES})
-add_dependencies(tag_filter tag_filter)
+add_executable(apriltag_filter src/apriltag_filter.cpp)
+target_link_libraries(apriltag_filter ${catkin_LIBRARIES})
+add_dependencies(apriltag_filter apriltag_filter)
 
-
+add_executable(apriltag_tf_broadcaster src/apriltag_tf_broadcaster.cpp)
+target_link_libraries(apriltag_tf_broadcaster ${catkin_LIBRARIES})
+add_dependencies(apriltag_tf_broadcaster apriltag_tf_broadcaster)
 

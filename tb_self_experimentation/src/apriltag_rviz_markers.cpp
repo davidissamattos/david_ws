@@ -1,5 +1,6 @@
-#include <ros/ros.h>
+//THis is a very basic node that filters the content of the identified april tags for a single id number. THis way we can select only the tags we are interested
 
+#include <ros/ros.h>
 //ROS Messages
 #include "wasp_custom_msgs/object_loc.h"
 #include <std_msgs/Float64.h>
@@ -44,7 +45,7 @@ int main(int argc, char **argv)
 		ROS_INFO("No parameter 'id_ref' found. Using id 0 for the april tag");
 	}
 	//Declaring and setting the subscriber
-	ros::Subscriber sub = nh.subscribe("object_location", 1, &filterTag_object_location);
+	ros::Subscriber sub = nh.subscribe("apriltag/object_location", 1, &filterTag_object_location);
 	//Setting the publisher
 	pub = nh.advertise<wasp_custom_msgs::object_loc>("apriltag/distance/", 1);
 	ros::spin();

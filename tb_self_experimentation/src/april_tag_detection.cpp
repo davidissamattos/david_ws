@@ -1,3 +1,9 @@
+// This file is a modified version of the original file by Michael Kaess. This is integrated to ROS and publish messages regarding both the position of the april tags, orientation and some values that are used in image processing such as size of the frame, where the april tag is localized in the image as pixels...
+//Not the most beautiful code around but it works fine
+
+
+
+
 /**
  * @file april_tags.cpp
  * @brief Example application for April tags library
@@ -287,26 +293,29 @@ Demo demo;
 //Call Back function for camera subsciber
 void imageCallback(const sensor_msgs::ImageConstPtr& msg){
 cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
-  //cv::imshow("view", cv_ptr->image);
-  //cv::waitKey(1);
-  cv::cvtColor(cv_ptr->image, image_gray, CV_BGR2GRAY);
-  demo.processImage(cv_ptr->image, image_gray);
+	//cv::imshow("view", cv_ptr->image);
+	//cv::waitKey(1);
+	cv::cvtColor(cv_ptr->image, image_gray, CV_BGR2GRAY);
+	demo.processImage(cv_ptr->image, image_gray);
 }
 
 // here is were everything begins
 int main(int argc, char* argv[]) {
-  ros::init(argc, argv, "Tag_Detector");
-  ros::NodeHandle nh;
-  image_transport::ImageTransport it(nh);
-  cv::startWindowThread();
+	ros::init(argc, argv, "Tag_Detector");
+	ros::NodeHandle nh;
+	image_transport::ImageTransport it(nh);
+	cv::startWindowThread();
+	demo.setup();
+	cout << "Initial setup executed"<<endl;
 
-  demo.setup();
-  cout << "Initial setup executed"<<endl;
-  image_transport::Subscriber sub = it.subscribe("ardrone/image_raw", 1, imageCallback);
-  object_location_pub = nh.advertise<wasp_custom_msgs::object_loc>("object_location", 1);
-  image_pub = nh.advertise<wasp_custom_msgs::image_point>("tag_location_image", 1);
-  cout << "Image Subscriber executed"<<endl;
-  ros::spin();
+//Here we define were we are getting our image from
+	image_transport::Subscriber sub = it.subscribe("camera/rgb/image_raw", 1, imageCallback);
+//To what topic we are publishing. The coordinates in x y z in respect to the camera	
+	object_location_pub = nh.advertise<wasp_custom_msgs::object_loc>("apriltag/object_location", 1);
+//We are publishing apriltag data relatively to the image itself	
+	image_pub = nh.advertise<wasp_custom_msgs::image_point>("apriltag/image_location", 1);
+	cout << "Image Subscriber executed"<<endl;
+	ros::spin();
 
-  return 0;
+	return 0;
 }
