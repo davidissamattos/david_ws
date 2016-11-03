@@ -47,9 +47,9 @@ include_directories(
 )
 
 
-add_executable(april_tags src/april_tag_detection.cpp)
-target_link_libraries(april_tags ${catkin_LIBRARIES})
-add_dependencies(april_tags april_tags)
+add_executable(apriltag_detection src/apriltag_detection.cpp)
+target_link_libraries(apriltag_detection ${catkin_LIBRARIES})
+add_dependencies(apriltag_detection apriltag_detection)
 
 add_executable(apriltag_filter src/apriltag_filter.cpp)
 target_link_libraries(apriltag_filter ${catkin_LIBRARIES})

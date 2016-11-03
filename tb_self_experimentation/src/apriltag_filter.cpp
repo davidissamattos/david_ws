@@ -20,6 +20,7 @@ void filterTag_object_location(const wasp_custom_msgs::object_loc &msg)
 	{
 		//Publishing data
 		pub.publish(msg);
+		cout<< msg <<endl;
 	}
 }
 

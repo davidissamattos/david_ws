@@ -1,6 +1,7 @@
 <launch>
 	<!-- Reference tag number for the apriltag -->		
 	<param name="id_ref" value="1" />
-	<node name="tag_filter" pkg="tb_self_experimentation" type="tag_filter" launch-prefix="xterm -e"/>	
+	<node name="apriltag_detection" pkg="tb_self_experimentation" type="apriltag_detection"/>
+	<node name="apriltag_filter" pkg="tb_self_experimentation" type="apriltag_filter" launch-prefix="xterm -e"/>	
 	<node name="apriltag_tf_broadcaster" pkg="tb_self_experimentation" type="apriltag_tf_broadcaster"/>
 </launch>
