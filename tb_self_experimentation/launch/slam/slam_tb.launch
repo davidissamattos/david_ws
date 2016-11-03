@@ -1,6 +1,4 @@
 <launch>
-	<!-- This env tag is to set the map we are going to use -->
-	<env name="TURTLEBOT_MAP_FILE" value="~/david_ws/src/tb_self_experimentation/misc/maps/jupiter_room457.yaml" />
 	<include file = "$(find turtlebot_bringup)/launch/minimal.launch" />
 	<include file = "$(find turtlebot_navigation)/launch/amcl_demo.launch" />
 </launch>
