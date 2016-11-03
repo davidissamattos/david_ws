@@ -11,5 +11,5 @@
 	<include file="$(find turtlebot_rviz_launchers)/launch/view_navigation.launch" />
 
 	<!-- Launching TF nodes -->
-	<include file="$(find tb_self_experimentation)/launch/apriltag_tf_broadcaster.launch" />
+	<include file="$(find tb_self_experimentation)/launch/include/apriltag_tf_broadcaster.launch" />
 </launch>
