@@ -1,0 +1,8 @@
+<launch>
+	<!-- Define the machine nodes and users -->
+	<machine name="tb" address="192.168.1.147" env-loader="/opt/ros/indigo/env.sh" user="chalmers"/>
+	<machine name="basestation" address="192.168.1.171" env-loader="/opt/ros/indigo/env.sh" user="davidis"/>
+	<include file = "$(find tb_self_experimentation)/launch/base.launch" machine="basestation"/>
+	<include file = "$(find tb_self_experimentation)/launch/everything.launch" machine="tb"/>
+</launch>
+
