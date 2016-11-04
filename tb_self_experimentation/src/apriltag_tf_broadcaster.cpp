@@ -5,13 +5,11 @@
 #include <tf/transform_broadcaster.h>
 #include "wasp_custom_msgs/object_loc.h"
 
-//Some global transformation variables
-tf::TransformBroadcaster br;
-tf::Transform transform;
-
 //This callback function is responsible for getting the camera-apriltag distance and add a mpde tp tje 
 void transform_callback(const wasp_custom_msgs::object_loc &msg)
 {
+	static tf::TransformBroadcaster br;
+	tf::Transform transform;
 	transform.setOrigin( tf::Vector3(msg.point.x, msg.point.y, msg.point.z) );
 	transform.setRotation( tf::Quaternion(0, 0, 0, 1) );
 	br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "camera_rgb_frame", "apriltag"));
