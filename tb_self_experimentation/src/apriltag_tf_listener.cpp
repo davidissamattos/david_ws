@@ -11,28 +11,29 @@ int main(int argc, char** argv){
 	ros::init(argc, argv, "apriltag_tf_listener");
 	ros::NodeHandle nh;
 
-	ros::Publisher pub = node.advertise<geometry_msgs::Pose2D>("apriltag/global_position", 10);
+	ros::Publisher pub = nh.advertise<geometry_msgs::Pose2D>("apriltag/global_position", 10);
 
 	tf::TransformListener listener;
 
 	ros::Rate rate(10.0);
-	while (node.ok()){
+	while (nh.ok()){
 		tf::StampedTransform transform;
 		try{
 			listener.lookupTransform("/map", "/apriltag",ros::Time(0), transform);
-			std::cout<< transform <<std::endl;
+			geometry_msgs::Pose2D position;
+			position.x = transform.getOrigin().x();
+			position.y = transform.getOrigin().y();
+			position.theta = tf::getYaw(transform.getRotation());
+			std::cout<< position <<std::endl;
+		
+			pub.publish(position);
 		}
 		catch (tf::TransformException ex){
 			ROS_ERROR("%s",ex.what());
 			ros::Duration(1.0).sleep();
 		}
 
-		geometry_msgs::Pose2D position;
-		position.x = transform.getOrigin().x();
-		position.y = transform.getOrigin().y();
-		//std::cout<< position <<std::endl;
 		
-		pub.publish(position);
 		
 		//Wait for next iteration
 		rate.sleep();

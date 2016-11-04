@@ -9,20 +9,22 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   geometry_msgs
+  visualization_msgs
   tf
   cv_bridge
   message_generation
   std_msgs
   cmake_modules
   nodelet
-  wasp_custom_msgs
 )
 
 find_package(Eigen REQUIRED)
 
-#add_message_files(
-#  FILES
-#)
+add_message_files(DIRECTORY msg
+  FILES
+  object_loc.msg
+  image_point.msg
+)
 
 generate_messages(
   DEPENDENCIES
@@ -33,7 +35,7 @@ generate_messages(
 catkin_package(
   INCLUDE_DIRS
   LIBRARIES apriltag_detector
-  CATKIN_DEPENDS image_transport roscpp sensor_msgs geometry_msgs tf cv_bridge message_runtime std_msgs nodelet apriltags wasp_custom_msgs
+  CATKIN_DEPENDS image_transport roscpp sensor_msgs geometry_msgs tf cv_bridge message_runtime std_msgs nodelet apriltags using_markers visualization_msgs
   DEPENDS Eigen
 )
 
@@ -49,17 +51,21 @@ include_directories(
 
 add_executable(apriltag_detection src/apriltag_detection.cpp)
 target_link_libraries(apriltag_detection ${catkin_LIBRARIES})
-add_dependencies(apriltag_detection apriltag_detection)
+add_dependencies(apriltag_detection apriltag_detection ${${PROJECT_NAME}_EXPORTED_TARGETS})
 
 add_executable(apriltag_filter src/apriltag_filter.cpp)
 target_link_libraries(apriltag_filter ${catkin_LIBRARIES})
-add_dependencies(apriltag_filter apriltag_filter)
+add_dependencies(apriltag_filter apriltag_filter ${${PROJECT_NAME}_EXPORTED_TARGETS})
 
 add_executable(apriltag_tf_broadcaster src/apriltag_tf_broadcaster.cpp)
 target_link_libraries(apriltag_tf_broadcaster ${catkin_LIBRARIES})
-add_dependencies(apriltag_tf_broadcaster apriltag_tf_broadcaster)
+add_dependencies(apriltag_tf_broadcaster apriltag_tf_broadcaster ${${PROJECT_NAME}_EXPORTED_TARGETS})
 
 add_executable(apriltag_tf_listener src/apriltag_tf_listener.cpp)
 target_link_libraries(apriltag_tf_listener ${catkin_LIBRARIES})
-add_dependencies(apriltag_tf_listener apriltag_tf_listener)
+add_dependencies(apriltag_tf_listener apriltag_tf_listener ${${PROJECT_NAME}_EXPORTED_TARGETS})
+
+add_executable(apriltag_rviz_markers src/apriltag_rviz_markers.cpp)
+target_link_libraries(apriltag_rviz_markers ${catkin_LIBRARIES})
+add_dependencies(apriltag_rviz_markers apriltag_rviz_markers ${${PROJECT_NAME}_EXPORTED_TARGETS})
 

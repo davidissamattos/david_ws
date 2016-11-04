@@ -4,7 +4,7 @@
 	<!-- Actual detection -->	
 	<node name="apriltag_detection" pkg="tb_self_experimentation" type="apriltag_detection"/>
 	<!-- Filtering only the tag id_ref -->	
-	<node name="apriltag_filter" pkg="tb_self_experimentation" type="apriltag_filter" launch-prefix="xterm -e"/>	
+	<node name="apriltag_filter" pkg="tb_self_experimentation" type="apriltag_filter"/>	
 	<!-- Adding a transformation frame. Transform coordinates from the distance to the camera -->	
 	<node name="apriltag_tf_broadcaster" pkg="tb_self_experimentation" type="apriltag_tf_broadcaster"/>
 	<!--Publish the transform from the camera to the map, so we can use a global system-->	

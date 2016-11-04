@@ -3,10 +3,10 @@
 
 #include <ros/ros.h>
 #include <tf/transform_broadcaster.h>
-#include "wasp_custom_msgs/object_loc.h"
+#include "tb_self_experimentation/object_loc.h"
 
 //This callback function is responsible for getting the camera-apriltag distance and add a mpde tp tje 
-void transform_callback(const wasp_custom_msgs::object_loc &msg)
+void transform_callback(const tb_self_experimentation::object_loc &msg)
 {
 	static tf::TransformBroadcaster br;
 	tf::Transform transform;

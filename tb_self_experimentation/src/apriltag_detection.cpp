@@ -21,22 +21,26 @@
 
 using namespace std;
 #include <ros/ros.h>
-#include <image_transport/image_transport.h>
-#include <opencv2/highgui/highgui.hpp>
-#include <cv_bridge/cv_bridge.h>
+
 #include <iostream>
 #include <cstring>
 #include <vector>
 #include <list>
 #include <sys/time.h>
 
-//WASP messages
-#include "wasp_custom_msgs/object_loc.h"
-#include "wasp_custom_msgs/image_point.h"
-
-// OpenCV library for easy access to USB camera and drawing of images
-// on screen
+#include <sensor_msgs/Image.h>
+#include <sensor_msgs/image_encodings.h>
+#include <image_transport/image_transport.h>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <cv_bridge/cv_bridge.h>
 #include "opencv2/opencv.hpp"
+
+//custom messages
+#include "tb_self_experimentation/object_loc.h"
+#include "tb_self_experimentation/image_point.h"
+
+
 
 // April tags detector and various families that can be selected by command line option
 #include "AprilTags/TagDetector.h"
@@ -57,6 +61,7 @@ cv::Mat image_new;
 cv::Mat image_gray;
 
 ros::Publisher object_location_pub;
+ros::Publisher image_location_pub;
 ros::Publisher image_pub;
 
 // utility function to provide current system time (used below in
@@ -178,9 +183,9 @@ public:
     m_tagDetector = new AprilTags::TagDetector(m_tagCodes);
 
     // prepare window for drawing the camera images
-    if (m_draw) {
-      cv::namedWindow(windowName, 1);
-    }
+   // if (m_draw) {
+     // cv::namedWindow(windowName, 1);
+   // }
 
   }
 
@@ -209,7 +214,7 @@ public:
     double yaw, pitch, roll;
     wRo_to_euler(fixed_rot, yaw, pitch, roll);
     //Message to publish the APril tag ID's collected
-    wasp_custom_msgs::object_loc location;
+    tb_self_experimentation::object_loc location;
     location.ID = detection.id;
     location.point.x = translation(0);
     location.point.y = translation(1);
@@ -218,7 +223,7 @@ public:
     location.angles.y = yaw;
     location.angles.z = roll;
 
-    //publishing the wasp message
+    //publishing the message
     object_location_pub.publish(location);
 
     /*cout << "  distance=" << translation.norm()
@@ -269,34 +274,58 @@ public:
       for (int i=0; i<detections.size(); i++) {
         // also highlight in the image
         detections[i].draw(image);
-        wasp_custom_msgs::image_point imag_p;
+        tb_self_experimentation::image_point imag_p;
         imag_p.ID = detections[i].id;
         imag_p.point.x = detections[i].cxy.first;
         imag_p.point.y = detections[i].cxy.second;
         imag_p.width.data = image.size().width;
         imag_p.height.data = image.size().height;
-        image_pub.publish(imag_p);
-        //cout << imag_p.point.x << " x " << imag_p.point.y<<endl;
-        //cout << imag_p.width.data << " x " << imag_p.height.data<<endl;
-
+        image_location_pub.publish(imag_p);
       }
-      imshow(windowName, image); // OpenCV call
-      cv::waitKey(1);
+      	//imshow(windowName, image); // OpenCV call
+      
+	//Publishing to a topic
+	cv_bridge::CvImage img_bridge;
+	sensor_msgs::Image img_msg; // >> message to be sent
+	
+	std_msgs::Header header; // empty header
+	header.frame_id = "apriltag"; 
+	header.stamp = ros::Time::now(); // time
+	
+	img_bridge = cv_bridge::CvImage(header, sensor_msgs::image_encodings::BGR8, image);
+	img_bridge.toImageMsg(img_msg);
+	image_pub.publish(img_msg);
+	
+	cv::waitKey(1);
     }
-
+	
   }
 }; // Demo
 
+
+
+//End of class definition
+///////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+//Begining of the program
 /*Create a global object so that the image callback can access its functions*/
 Demo demo;
 
 //Call Back function for camera subsciber
-void imageCallback(const sensor_msgs::ImageConstPtr& msg){
-cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
+void imageCallback(const sensor_msgs::ImageConstPtr& msg)
+{
+	cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
 	//cv::imshow("view", cv_ptr->image);
 	//cv::waitKey(1);
 	cv::cvtColor(cv_ptr->image, image_gray, CV_BGR2GRAY);
 	demo.processImage(cv_ptr->image, image_gray);
+
+
 }
 
 // here is were everything begins
@@ -311,9 +340,10 @@ int main(int argc, char* argv[]) {
 //Here we define were we are getting our image from
 	image_transport::Subscriber sub = it.subscribe("camera/rgb/image_raw", 1, imageCallback);
 //To what topic we are publishing. The coordinates in x y z in respect to the camera	
-	object_location_pub = nh.advertise<wasp_custom_msgs::object_loc>("apriltag/object_location", 1);
+	object_location_pub = nh.advertise<tb_self_experimentation::object_loc>("apriltag/object_location", 1);
 //We are publishing apriltag data relatively to the image itself	
-	image_pub = nh.advertise<wasp_custom_msgs::image_point>("apriltag/image_location", 1);
+	image_location_pub = nh.advertise<tb_self_experimentation::image_point>("apriltag/image_location", 1);
+	image_pub = nh.advertise<sensor_msgs::Image>("apriltag/output_video", 1);
 	cout << "Image Subscriber executed"<<endl;
 	ros::spin();
 

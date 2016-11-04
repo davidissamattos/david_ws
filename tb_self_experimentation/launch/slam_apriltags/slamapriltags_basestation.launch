@@ -1,5 +1,3 @@
 <launch>
 	 <include file = "$(find turtlebot_rviz_launchers)/launch/view_navigation.launch"/>
-	 <!-- Running April tags detection and TF in the basestation just to visualize -->
-	<include file="$(find tb_self_experimentation)/launch/include/apriltag_filter.launch" />
 </launch>
