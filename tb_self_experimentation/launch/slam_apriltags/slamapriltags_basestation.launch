@@ -1,3 +1,4 @@
 <launch>
 	 <include file = "$(find turtlebot_rviz_launchers)/launch/view_navigation.launch"/>
+	 <node name="apriltag_rviz_markers" pkg="tb_self_experimentation" type="apriltag_rviz_markers"/>
 </launch>

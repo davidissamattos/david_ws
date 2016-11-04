@@ -296,7 +296,7 @@ public:
 	img_bridge.toImageMsg(img_msg);
 	image_pub.publish(img_msg);
 	
-	cv::waitKey(1);
+	//cv::waitKey(1);
     }
 	
   }
@@ -333,7 +333,7 @@ int main(int argc, char* argv[]) {
 	ros::init(argc, argv, "Tag_Detector");
 	ros::NodeHandle nh;
 	image_transport::ImageTransport it(nh);
-	cv::startWindowThread();
+	//cv::startWindowThread();
 	demo.setup();
 	cout << "Initial setup executed"<<endl;
 
