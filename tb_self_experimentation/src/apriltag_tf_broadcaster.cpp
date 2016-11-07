@@ -11,7 +11,10 @@ void transform_callback(const tb_self_experimentation::object_loc &msg)
 	static tf::TransformBroadcaster br;
 	tf::Transform transform;
 	transform.setOrigin( tf::Vector3(msg.point.x, msg.point.y, msg.point.z) );
-	transform.setRotation( tf::Quaternion(0, 0, 0, 1) );
+	tf::Quaternion qt = tf::Quaternion();
+	qt.setRPY(msg.angles.x,msg.angles.y,msg.angles.z);//Defining quaternion from Roll Pitch Yaw
+	//transform.setRotation( tf::Quaternion(0, 0, 0, 1) );//without rotation
+	transform.setRotation(qt);
 	br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "camera_rgb_frame", "apriltag"));
 }
 

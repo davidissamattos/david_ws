@@ -17,10 +17,20 @@ Dependencies
     * http://jokla.me/robotics/speech-recognition-ros/
     * http://wiki.ros.org/pocketsphinx
     * http://www.speech.cs.cmu.edu/tools/lmtool.html
-* WASP message package and maybe some other stuff developed in the WASP Autonomous system course
-    * https://github.com/pierg/wasp_cht2_catkin
-* WASP Summer school packages (not totally sure if I am really depending on something from there)
-    * https://github.com/WASP2016
-    * There might be some conflicts between pierg repository and the WASP Summer School repository
-* April tag package
-    * This package is contained inside the WASP Summer School and pierg repo. In pierg package there are some modifications in the source files for the april tag recognition to include some information of the april tags in the image (what are the pixels, center, image size...)
+* I changed the dependencies so I don't need the following packages anymore. But I will list them here anyway because they are the references for part of what I have modified
+    * WASP Summer school packages and autonomous system course repo
+    	* https://github.com/WASP2016
+	* https://github.com/pierg/wasp_cht2_catkin
+    	* There might be some conflicts between pierg repository and the WASP Summer School repository
+    * April tag package
+	* This package is contained inside the WASP Summer School and pierg repo. In pierg package there are some modifications in the source files for the april tag recognition to include some information of the april tags in the image (what are the pixels, center, image size...)
+	* I modified this package extensively
+
+Description of the packages
+* Pocketsphinx
+    *
+* tb_simulation
+    *
+* tb_self_experimentation
+    *
+

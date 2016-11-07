@@ -17,8 +17,8 @@ uint32_t shape = visualization_msgs::Marker::CUBE;
 
 void updateMarkers(const geometry_msgs::Pose2D &msg)
 {
-	//tf::Quaternion qt = Quaternion();
-	//qt.setRPY(0,0,msg.theta);
+	tf::Quaternion qt = tf::Quaternion();
+	qt.setRPY(0,0,msg.theta);
 	visualization_msgs::Marker marker;
 	marker.header.frame_id = "/map";
 	marker.header.stamp = ros::Time::now();
@@ -28,15 +28,15 @@ void updateMarkers(const geometry_msgs::Pose2D &msg)
 	marker.pose.position.x = msg.x;
 	marker.pose.position.y = msg.y;
 	marker.pose.position.z = 0;
-	marker.pose.orientation.x = 0;
-	marker.pose.orientation.y = 0;
-	marker.pose.orientation.z = 0;
-	marker.pose.orientation.w = 1;
+	marker.pose.orientation.x = qt.x();
+	marker.pose.orientation.y = qt.y();
+	marker.pose.orientation.z = qt.z();
+	marker.pose.orientation.w = qt.w();
 
 	cout << marker.pose <<endl;
 
 	// Set the scale of the marker -- 1x1x1 here means 1m on a side
-	marker.scale.x = 1.0;
+	marker.scale.x = 0.1;
 	marker.scale.y = 0.1;
 	marker.scale.z = 1.0;
 

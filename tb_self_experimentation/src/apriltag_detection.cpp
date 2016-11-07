@@ -219,9 +219,9 @@ public:
     location.point.x = translation(0);
     location.point.y = translation(1);
     location.point.z = translation(2);
-    location.angles.x = pitch;
-    location.angles.y = yaw;
-    location.angles.z = roll;
+    location.angles.x = roll;
+    location.angles.y = pitch;
+    location.angles.z = yaw;
 
     //publishing the message
     object_location_pub.publish(location);
