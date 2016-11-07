@@ -16,6 +16,8 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   cmake_modules
   nodelet
+  move_base_msgs
+  actionlib
 )
 
 find_package(Eigen REQUIRED)
@@ -30,12 +32,13 @@ generate_messages(
   DEPENDENCIES
   std_msgs
   geometry_msgs
+  move_base_msgs
 )
 
 catkin_package(
   INCLUDE_DIRS
-  LIBRARIES apriltag_detector
-  CATKIN_DEPENDS image_transport roscpp sensor_msgs geometry_msgs tf cv_bridge message_runtime std_msgs nodelet apriltags using_markers visualization_msgs
+  LIBRARIES apriltag_detector 
+  CATKIN_DEPENDS image_transport roscpp sensor_msgs geometry_msgs tf cv_bridge message_runtime std_msgs nodelet apriltags using_markers visualization_msgs move_base_msgs actionlib
   DEPENDS Eigen
 )
 
@@ -48,6 +51,9 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+add_executable(approach_human src/approach_human.cpp)
+target_link_libraries(approach_human ${catkin_LIBRARIES})
+add_dependencies(approach_human approach_human ${${PROJECT_NAME}_EXPORTED_TARGETS})
 
 add_executable(apriltag_detection src/apriltag_detection.cpp)
 target_link_libraries(apriltag_detection ${catkin_LIBRARIES})

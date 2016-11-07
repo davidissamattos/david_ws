@@ -1,0 +1,6 @@
+<launch>
+	<!-- Reference Human robot interaction distance -->		
+	<param name="hri_distance" value="1.5" />
+	<!--Publish the transform from the camera to the map, so we can use a global system-->	
+	<node name="approach_human" pkg="tb_self_experimentation" type="approach_human" output="screen"/>
+</launch>

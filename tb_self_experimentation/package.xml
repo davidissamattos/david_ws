@@ -7,15 +7,16 @@
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
   <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
-  <maintainer email="chalmers@todo.todo">chalmers</maintainer>
+  <maintainer email="davidis@chalmers.se">David Issa Mattos</maintainer>
 
 
   <license>BSD</license>
 
-  <url type="website">http://wiki.ros.org/apriltags_ros</url>
-  <url type="bugtracker">https://github.com/RIVeR-Lab/apriltags_ros/issues</url>
-  <url type="repository">https://github.com/RIVeR-Lab/apriltags_ros</url>
+  <url type="website">https://github.com/davidissamattos/david_ws</url>
+  <url type="bugtracker">https://github.com/davidissamattos/david_ws/issues</url>
+  <url type="repository">https://github.com/davidissamattos/david_ws</url>
 
+<!-- Build tool packages -->
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>apriltags</build_depend>
   <build_depend>image_transport</build_depend>
@@ -30,6 +31,11 @@
   <build_depend>cmake_modules</build_depend>
   <build_depend>using_markers</build_depend>
   <build_depend>visualization_msgs</build_depend>
+  <build_depend>move_base_msgs</build_depend>
+  <build_depend>actionlib</build_depend>
+<!-- Run depend packages -->
+  <run_depend>move_base_msgs</run_depend>
+  <run_depend>actionlib</run_depend>
   <run_depend>using_markers</run_depend>
   <run_depend>visualization_msgs</run_depend>
   <run_depend>apriltags</run_depend>
