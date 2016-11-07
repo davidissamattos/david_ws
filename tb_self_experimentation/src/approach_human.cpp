@@ -1,62 +1,73 @@
 #include <ros/ros.h>
-#include <move_base_msgs/MoveBaseAction.h>
-#include <actionlib/client/simple_action_client.h>
+#include <math.h>
 #include <geometry_msgs/Pose2D.h>
+#include <geometry_msgs/PoseStamped.h>
 #include <std_msgs/Bool.h>
+#include <tf/transform_datatypes.h>
 
-typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 float hri_distance = 2.0;
-//tell the action client that we want to spin a thread by default
-MoveBaseClient ac("move_base", true);
-
+geometry_msgs::Pose2D position;
+ros::Publisher pub_goal;
+bool going_to_goal = false;
 
 void approachCallback(const std_msgs::Bool &msg)
 {
-	if(msg.data)//If we can start approaching
+	//This flags are just to make sure we publish the goal once
+	//very simplistic case
+	
+	//Define the goal
+	if(msg.data==true && going_to_goal==false)//If we can start approaching
 	{	
-		move_base_msgs::MoveBaseGoal goal;
-		//we'll send a goal to the robot to move a distance to the apriltag
-		//position.x = distance
-		//position.y =0 // We want the robot to approach perpendicular to the tag
-		//orientation.w = 0 we want the robot to be facing the tag
-		goal.target_pose.header.frame_id = "apriltag";
-		goal.target_pose.header.stamp = ros::Time::now();
+		//Sending the tb to the distance goal
+		going_to_goal = true;
+		geometry_msgs::PoseStamped goal;
+		goal.header.frame_id = "/map";
+		goal.header.stamp = ros::Time::now();
+		
+		tf::Quaternion qt = tf::Quaternion();
+		qt.setRPY(0,0,position.theta);
+		goal.pose.orientation.x = qt.x();
+		goal.pose.orientation.y = qt.y();
+		goal.pose.orientation.z = qt.z();
+		goal.pose.orientation.w = qt.w();
 
-		goal.target_pose.pose.position.x = hri_distance;
-		goal.target_pose.pose.position.y = 0;
-		goal.target_pose.pose.orientation.w = 0;
-
-		ROS_INFO("Sending goal");
-		ac.sendGoal(goal);
-
-		ac.waitForResult();
-
-		if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
-		{
-			ROS_INFO("Getting close to the human");
-		}
-		else
-		{
-			ROS_INFO("The base failed to move close");
-		}
+		goal.pose.position.x = position.x + hri_distance*cos(-position.theta);
+		goal.pose.position.y = position.y + hri_distance*sin(-position.theta);
+		std::cout<<"hri_distance  "<<hri_distance<<std::endl;
+		std::cout<<goal<<std::endl;
+		
+		pub_goal.publish(goal);
+		
 	}
+	if(msg.data==false && going_to_goal==true)//waiting to finish the goal
+	{
+		going_to_goal = false;
+	}
+}
+
+//Saving the current position of the apriltag
+void apriltagPositionCallback(const geometry_msgs::Pose2D &msg)
+{
+	position.x = msg.x;
+	position.y = msg.y;
+	position.theta = msg.theta;
+	std::cout<<position<<std::endl;
 }
 
 
 int main(int argc, char** argv)
 {
+	
 	ros::init(argc, argv, "approach_human");
 	//Public node	
 	ros::NodeHandle nh;
-	
-	//wait for the action server to come up
-	while(!ac.waitForServer(ros::Duration(5.0)))
-	{
-		ROS_INFO("Waiting for the move_base action server to come up");
-	}
 
 	//Declaring and setting the subscriber
-	ros::Subscriber sub = nh.subscribe("hri_distance/approach", 1, &approachCallback);	
+	ros::Subscriber sub = nh.subscribe("hri_distance/approach/start", 1, &approachCallback);
+	
+	ros::Subscriber sub_pos = nh.subscribe("apriltag/global_position", 1, &apriltagPositionCallback);
+	//Declaring the publisher
+	pub_goal = nh.advertise<geometry_msgs::PoseStamped>("move_base_simple/goal/", 1);
 
 	//Always update parameters before calling the callback function
 	ros::Rate loop_rate(1);
@@ -68,7 +79,7 @@ int main(int argc, char** argv)
 	 	{
 	 		// Found parameter, can now query it using param_name
 			nh.getParam("hri_distance", hri_distance);
-			std::cout<<"hri_distance  "<<hri_distance<<std::endl;
+			//std::cout<<"hri_distance  "<<hri_distance<<std::endl;
 		}
 		else
 		{
@@ -79,4 +90,5 @@ int main(int argc, char** argv)
 	loop_rate.sleep();
 	ros::spinOnce();
 	}
+	return 0;
 }

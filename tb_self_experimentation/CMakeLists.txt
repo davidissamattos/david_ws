@@ -75,3 +75,6 @@ add_executable(apriltag_rviz_markers src/apriltag_rviz_markers.cpp)
 target_link_libraries(apriltag_rviz_markers ${catkin_LIBRARIES})
 add_dependencies(apriltag_rviz_markers apriltag_rviz_markers ${${PROJECT_NAME}_EXPORTED_TARGETS})
 
+add_executable(goal_rviz_markers src/goal_rviz_markers.cpp)
+target_link_libraries(goal_rviz_markers ${catkin_LIBRARIES})
+add_dependencies(goal_rviz_markers goal_rviz_markers ${${PROJECT_NAME}_EXPORTED_TARGETS})

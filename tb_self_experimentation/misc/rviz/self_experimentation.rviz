@@ -9,6 +9,8 @@ Panels:
         - /Global Map1/Planner1
         - /Local Map1/Planner1
         - /Local Map1/Trajectory Cloud1
+        - /Marker1
+        - /Marker1/Namespaces1
       Splitter Ratio: 0.5
     Tree Height: 772
   - Class: rviz/Selection
@@ -29,7 +31,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: Camera
 Visualization Manager:
   Class: ""
   Displays:
@@ -516,10 +518,19 @@ Visualization Manager:
           Trajectory Cloud: true
           Value: true
         Map: true
+        Marker: true
         RobotModel: true
         TF: true
         Value: false
       Zoom Factor: 1
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: visualization_marker
+      Name: Marker
+      Namespaces:
+        apriltag: true
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -577,5 +588,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1855
-  X: 47
-  Y: 22
+  X: 55
+  Y: 14
