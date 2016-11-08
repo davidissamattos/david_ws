@@ -13,9 +13,9 @@ using namespace std;
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
-float hri_distance = 2.0;
+float hri_distance = 1.0;
 geometry_msgs::Pose2D apriltag_position;
-ros::Publisher pub_goal;
+ros::Publisher pub;
 float something_x = 10;
 float something_y = 10;
 MoveBaseClient* ac;
@@ -56,19 +56,22 @@ void approachApriltag()
 {
 	ROS_INFO("Approaching tag");
 	move_base_msgs::MoveBaseGoal goal;
-	//setting the header
+	//Setting the header
 	goal.target_pose.header.frame_id = "/map";
 	goal.target_pose.header.stamp = ros::Time::now();
-	//setting orientation
+	//setting the distance
+	goal.target_pose.pose.position.x = apriltag_position.x + hri_distance*cos(apriltag_position.theta);
+	goal.target_pose.pose.position.y = apriltag_position.y -hri_distance*sin(apriltag_position.theta);
+
+		//setting orientation
+	double angle = atan2(goal.target_pose.pose.position.y - apriltag_position.y, goal.target_pose.pose.position.x - apriltag_position.x);
 	tf::Quaternion qt = tf::Quaternion();
-	qt.setRPY(0,0,M_PI/2-apriltag_position.theta);
+	qt.setRPY(0,0,angle);
 	goal.target_pose.pose.orientation.x = qt.x();
 	goal.target_pose.pose.orientation.y = qt.y();
 	goal.target_pose.pose.orientation.z = qt.z();
 	goal.target_pose.pose.orientation.w = qt.w();
-	//setting the distance
-	goal.target_pose.pose.position.x = apriltag_position.x + hri_distance*cos(M_PI/2 -apriltag_position.theta);
-	goal.target_pose.pose.position.y = apriltag_position.y + hri_distance*sin(M_PI/2 -apriltag_position.theta);
+
 	//Sending the goal and waiting for result	
 	ROS_INFO("Apriltag position");
 	cout<<"x: "<<apriltag_position.x<<" y: "<<apriltag_position.y<<" Theta: "<<apriltag_position.theta<<endl;
@@ -82,9 +85,19 @@ void approachApriltag()
 	ac->waitForResult();
 
 	if(ac->getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
+	{
 		ROS_INFO("Goal reached");
+		std_msgs::Bool signal;
+		signal.data = true;
+		pub.publish(signal);
+	}	
 	else
+	{	
 		ROS_INFO("The base failed to move reach the goal");
+		std_msgs::Bool signal;
+		signal.data = false;
+		pub.publish(signal);
+	}
 }
 
 void goAway()
@@ -113,9 +126,19 @@ void goAway()
 	ac->waitForResult();
 
 	if(ac->getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
+	{
 		ROS_INFO("Goal reached");
+		std_msgs::Bool signal;
+		signal.data = false;
+		pub.publish(signal);
+	}	
 	else
+	{
 		ROS_INFO("The base failed to move reach the goal");
+		std_msgs::Bool signal;
+		signal.data = false;
+		pub.publish(signal);
+	}
 }
 
 int main(int argc, char** argv)
@@ -131,7 +154,7 @@ int main(int argc, char** argv)
 	}
 	
 	ros::Subscriber sub_pos = nh.subscribe("apriltag/global_position", 1, &apriltagPositionCallback);
-	
+	pub = nh.advertise<std_msgs::Bool>("hri_distance/robot/concluded_approach", 1); 
 	//Input thread
 	boost::thread t1(getInput);
 	//Always update parameters before calling the callback function

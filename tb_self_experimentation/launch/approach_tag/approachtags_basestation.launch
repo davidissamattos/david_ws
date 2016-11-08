@@ -2,6 +2,7 @@
   	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find tb_self_experimentation)/misc/rviz/self_experimentation.rviz"/>
 	 <node name="apriltag_rviz_markers" pkg="tb_self_experimentation" type="apriltag_rviz_markers"/>
 	 <node name="goal_rviz_markers" pkg="tb_self_experimentation" type="goal_rviz_markers"/>
+	<node name="awaypoint_rviz_markers" pkg="tb_self_experimentation" type="awaypoint_rviz_markers"/>
 	<!-- Debuging the approach -->	
 	<include file = "$(find tb_self_experimentation)/launch/include/approach.launch" />
 </launch>

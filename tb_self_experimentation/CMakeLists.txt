@@ -84,6 +84,10 @@ add_executable(goal_rviz_markers src/goal_rviz_markers.cpp)
 target_link_libraries(goal_rviz_markers ${catkin_LIBRARIES})
 add_dependencies(goal_rviz_markers goal_rviz_markers ${${PROJECT_NAME}_EXPORTED_TARGETS})
 
+add_executable(awaypoint_rviz_markers src/awaypoint_rviz_markers.cpp)
+target_link_libraries(awaypoint_rviz_markers ${catkin_LIBRARIES})
+add_dependencies(awaypoint_rviz_markers goal_rviz_markers ${${PROJECT_NAME}_EXPORTED_TARGETS})
+
 add_executable(robot_feedback src/robot_feedback.cpp)
 target_link_libraries(robot_feedback ${catkin_LIBRARIES})
 add_dependencies(robot_feedback robot_feedback ${${PROJECT_NAME}_EXPORTED_TARGETS})

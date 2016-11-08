@@ -4,4 +4,5 @@
 	<include file = "$(find turtlebot_navigation)/launch/amcl_demo.launch" />
 	<!-- Running April tags detection and TF -->
 	<include file="$(find tb_self_experimentation)/launch/include/apriltag_filter.launch" />
+	<node name="robot_feedback" pkg="tb_self_experimentation" type="robot_feedback"/>
 </launch>
