@@ -13,8 +13,8 @@
 
 using namespace std;
 using namespace cv;
-std::string happy_image = "/home/davidis/david_ws/happy.jpg";
-std::string sad_image = "/home/davidis/david_ws/sad.jpg";
+std::string happy_image = "/home/chalmers/david_ws/tb_self_experimentation/misc/images/happy.jpg";
+std::string sad_image = "/home/chalmers/david_ws/tb_self_experimentation/misc/images/happy.jpg";
 
 
 void robotFeedback(const std_msgs::Bool &msg)
@@ -23,7 +23,7 @@ void robotFeedback(const std_msgs::Bool &msg)
 	{
 		Mat image;
 		image = imread(happy_image, CV_LOAD_IMAGE_COLOR);
-		if(! image.data )                              // Check for invalid input
+		if(!image.data )                              // Check for invalid input
     		{
         		cout <<  "Could not open or find the image" << std::endl ;
     		}
@@ -36,7 +36,7 @@ void robotFeedback(const std_msgs::Bool &msg)
 	{
 		cv::Mat image;
 		image = imread(sad_image, CV_LOAD_IMAGE_COLOR);
-		if(! image.data )                              // Check for invalid input
+		if(!image.data )                              // Check for invalid input
     		{
         		cout <<  "Could not open or find the image" << std::endl ;
     		}
@@ -56,6 +56,21 @@ int main(int argc, char **argv)
 	ros::NodeHandle nh;
 	ros::Subscriber sub_positive = nh.subscribe("hri_distance/robot/feedback", 1, &robotFeedback);
 	
+	//Getting image parameters
+	if (nh.hasParam("happy_image"))
+ 	{
+ 		// Found parameter, can now query it using param_name
+		nh.getParam("happy_image", happy_image);
+	}
+		if (nh.hasParam("sad_image"))
+ 	{
+ 		// Found parameter, can now query it using param_name
+		nh.getParam("sad_image", sad_image);
+	}
+	
+
+
+
 	//show image
 	cv::startWindowThread();
 	namedWindow( "robot", WINDOW_AUTOSIZE );// Create a window for display.

@@ -1,0 +1,7 @@
+<launch>
+	<!-- Reference tag number for the apriltag -->		
+	<param name="happy_image" value="/home/chalmers/david_ws/tb_self_experimentation/misc/images/happy.jpg" />
+	<param name="sad_image" value="/home/chalmers/david_ws/tb_self_experimentation/misc/images/sad.jpg" />
+	<!-- Actual detection -->	
+	<node name="robot_feedback" pkg="tb_self_experimentation" type="robot_feedback"/>
+</launch>
