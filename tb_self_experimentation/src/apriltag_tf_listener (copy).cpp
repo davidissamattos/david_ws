@@ -29,10 +29,12 @@ int main(int argc, char** argv){
 			pub.publish(position);
 		}
 		catch (tf::TransformException ex){
-			//Tired of seeing this useless error of conversion			
-			//ROS_ERROR("%s",ex.what());
+			ROS_ERROR("%s",ex.what());
 			ros::Duration(1.0).sleep();
 		}
+
+		
+		
 		//Wait for next iteration
 		rate.sleep();
 		}
