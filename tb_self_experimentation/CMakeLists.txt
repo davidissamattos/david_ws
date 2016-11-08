@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(tb_self_experimentation)
 
+if(CMAKE_COMPILER_IS_GNUCXX) 
+	add_definitions(-std=gnu++0x) 
+endif()
+
 find_package(catkin REQUIRED COMPONENTS
   apriltags
   image_transport
@@ -17,6 +21,7 @@ find_package(catkin REQUIRED COMPONENTS
   nodelet
   move_base_msgs
   actionlib
+  OpenCV
 )
 
 find_package(Eigen REQUIRED)
@@ -37,8 +42,8 @@ generate_messages(
 catkin_package(
   INCLUDE_DIRS
   LIBRARIES apriltag_detector 
-  CATKIN_DEPENDS image_transport roscpp sensor_msgs geometry_msgs tf cv_bridge message_runtime std_msgs nodelet apriltags using_markers visualization_msgs move_base_msgs actionlib
-  DEPENDS Eigen
+  CATKIN_DEPENDS image_transport roscpp sensor_msgs geometry_msgs tf cv_bridge message_runtime std_msgs nodelet apriltags using_markers visualization_msgs move_base_msgs actionlib 
+  DEPENDS Eigen OpenCV
 )
 
 ###########
@@ -48,6 +53,7 @@ include_directories(include  ${catkin_INCLUDE_DIRS})
 include_directories(
   ${Eigen_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
 )
 
 add_executable(approach_and_go src/approach_and_go.cpp)
@@ -77,3 +83,7 @@ add_dependencies(apriltag_rviz_markers apriltag_rviz_markers ${${PROJECT_NAME}_E
 add_executable(goal_rviz_markers src/goal_rviz_markers.cpp)
 target_link_libraries(goal_rviz_markers ${catkin_LIBRARIES})
 add_dependencies(goal_rviz_markers goal_rviz_markers ${${PROJECT_NAME}_EXPORTED_TARGETS})
+
+add_executable(robot_feedback src/robot_feedback.cpp)
+target_link_libraries(robot_feedback ${catkin_LIBRARIES})
+add_dependencies(robot_feedback robot_feedback ${${PROJECT_NAME}_EXPORTED_TARGETS})
