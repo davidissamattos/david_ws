@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(tb_self_experimentation)
 
-
 find_package(catkin REQUIRED COMPONENTS
   apriltags
   image_transport
@@ -51,9 +50,9 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(approach_human src/approach_human.cpp)
-target_link_libraries(approach_human ${catkin_LIBRARIES})
-add_dependencies(approach_human approach_human ${${PROJECT_NAME}_EXPORTED_TARGETS})
+add_executable(approach_and_go src/approach_and_go.cpp)
+target_link_libraries(approach_and_go ${catkin_LIBRARIES})
+add_dependencies(approach_and_go approach_and_go ${${PROJECT_NAME}_EXPORTED_TARGETS})
 
 add_executable(apriltag_detection src/apriltag_detection.cpp)
 target_link_libraries(apriltag_detection ${catkin_LIBRARIES})

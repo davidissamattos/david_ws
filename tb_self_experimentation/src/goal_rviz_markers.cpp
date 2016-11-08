@@ -8,6 +8,7 @@
 #include <geometry_msgs/PoseStamped.h>
 #include <tf/transform_datatypes.h>
 #include <visualization_msgs/Marker.h>
+#include <move_base_msgs/MoveBaseAction.h>
 
 
 using namespace std;
@@ -15,7 +16,7 @@ using namespace std;
 ros::Publisher marker_pub;
 uint32_t shape = visualization_msgs::Marker::SPHERE;
 
-void updateMarkers(const geometry_msgs::PoseStamped &msg)
+void updateMarkers(const move_base_msgs::MoveBaseActionGoal &msg)
 {
 	visualization_msgs::Marker marker;
 	marker.header.frame_id = "/map";
@@ -23,8 +24,8 @@ void updateMarkers(const geometry_msgs::PoseStamped &msg)
 	marker.ns = "goal";
 	marker.id = 0;
 	marker.type = shape;
-	marker.pose.position.x = msg.pose.position.x;
-	marker.pose.position.y = msg.pose.position.y;
+	marker.pose.position.x = msg.goal.target_pose.pose.position.x;
+	marker.pose.position.y = msg.goal.target_pose.pose.position.y;
 	marker.pose.position.z = 0;
 	marker.pose.orientation.x = 0;
 	marker.pose.orientation.y = 0;
@@ -53,7 +54,7 @@ int main( int argc, char** argv )
 	ros::NodeHandle nh;
 
 	//Declaring and setting the subscriber and publisher
-	ros::Subscriber sub = nh.subscribe("move_base_simple/goal", 1, &updateMarkers);
+	ros::Subscriber sub = nh.subscribe("move_base/goal", 1, &updateMarkers);
 	marker_pub = nh.advertise<visualization_msgs::Marker>("visualization_marker", 1);
 	
 	ros::spin();
