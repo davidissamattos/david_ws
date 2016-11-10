@@ -64,7 +64,7 @@ void approachApriltag()
 	goal.target_pose.pose.position.y = apriltag_position.y -hri_distance*sin(apriltag_position.theta);
 
 		//setting orientation
-	double angle = atan2(goal.target_pose.pose.position.y - apriltag_position.y, goal.target_pose.pose.position.x - apriltag_position.x);
+	double angle = apriltag_position.theta;
 	tf::Quaternion qt = tf::Quaternion();
 	qt.setRPY(0,0,angle);
 	goal.target_pose.pose.orientation.x = qt.x();
