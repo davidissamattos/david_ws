@@ -1,0 +1,8 @@
+prefix=/home/davidis/david_ws/src/devel
+
+Name: tb_simulation
+Description: Description of tb_simulation
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/davidis/david_ws/src/devel/lib 
+Requires: 

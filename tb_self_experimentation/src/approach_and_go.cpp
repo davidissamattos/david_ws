@@ -33,7 +33,7 @@ void getInput()
 		std::cout<<"Press 'a' to approach and 's' to go away"<<endl;
 		std::string result;    		
 		getline(cin,result);
-      		cout<<"You entered "<<result<<" "<< endl;
+            cout<<"You entered '"<<result<<"'' "<< endl;
 		if(result=="a")
 			approachApriltag();
 		if(result=="s")
@@ -151,6 +151,7 @@ int main(int argc, char** argv)
 	while(!ac->waitForServer(ros::Duration(5.0)))
 	{
 		ROS_INFO("Waiting for the move_base action server to come up");
+        ROS_INFO("See if the tb base is on");
 	}
 	
 	ros::Subscriber sub_pos = nh.subscribe("apriltag/global_position", 1, &apriltagPositionCallback);
