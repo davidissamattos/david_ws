@@ -4,8 +4,4 @@
 			<param name="lm" value="$(find tb_self_experimentation)/misc/voice_commands/3words/5419.lm"/>
 			<param name="dict" value="$(find tb_self_experimentation)/misc/voice_commands/3words/5419.dic"/>
 		</node>
-	
-<!-- Node that will actually do something with the recognized voice topics published in the pockectsphinx -->
-		<node name="voice_feedback" pkg="tb_self_experimentation" type="voice_feedback.py"/>
-
 </launch>

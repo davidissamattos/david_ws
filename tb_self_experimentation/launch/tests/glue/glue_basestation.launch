@@ -5,8 +5,8 @@
 	<!-- Commandline User interface to say when to approach and when to do something else. -->
 		<include file = "$(find tb_self_experimentation)/launch/include/approach.launch" />
 
-
 	<!-- Debugging nodes. Nodes that should run on the turtlebot but we run here so we can debug more quickly -->
-		<node name="version_manager" pkg="tb_self_experimentation" type="version_manager.py" output="screen" launch-prefix="xterm -e"/>
+		<include file = "$(find tb_self_experimentation)/launch/include/voice_recognition.launch" />
+		<include file = "$(find tb_self_experimentation)/launch/include/self_experiementation_architecture.launch" />
 	
 </launch>
