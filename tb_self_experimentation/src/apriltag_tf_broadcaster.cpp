@@ -12,7 +12,7 @@ void transform_callback(const tb_self_experimentation::object_loc &msg)
 	tf::Transform transform;
 	transform.setOrigin( tf::Vector3(msg.point.x, msg.point.y, msg.point.z) );
 	tf::Quaternion qt = tf::Quaternion();
-	qt.setRPY(0,msg.angles.y,0);//pure experimentation with the angles published by the april tag
+	qt.setRPY(0,-msg.angles.y,0);//pure experimentation with the angles published by the april tag
 	transform.setRotation(qt);
 	br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "camera_rgb_frame", "apriltag"));
 }

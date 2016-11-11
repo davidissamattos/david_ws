@@ -32,7 +32,7 @@ class MetricAnalysis:
 
 		#Initializing and getting parameters
 		if rospy.has_param('hri_logfile'):		
-			rospy.get_param('hri_logfile', self.logfile)
+			self.logfile = rospy.get_param('hri_logfile')
 		else:
 			self.logfile = 'hri.csv'
 		

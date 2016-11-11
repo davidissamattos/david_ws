@@ -155,7 +155,7 @@ int main(int argc, char** argv)
 	}
 	
 	ros::Subscriber sub_pos = nh.subscribe("apriltag/global_position", 1, &apriltagPositionCallback);
-	pub = nh.advertise<std_msgs::Bool>("hri_distance/robot/concluded_approach", 1); 
+	pub = nh.advertise<std_msgs::Bool>("hri_distance/conclude_approach", 1); 
 	//Input thread
 	boost::thread t1(getInput);
 	//Always update parameters before calling the callback function

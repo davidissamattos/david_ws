@@ -4,10 +4,10 @@
 	<param name="hri_logfile" value="hri.csv" />
 	
 
-	<!-- Self-experimentation nodes -->
+	<!-- Self-experimentation nodes 
 		<node name="version_manager" pkg="tb_self_experimentation" type="version_manager.py"/>
 		<node name="feedback" pkg="tb_self_experimentation" type="feedback.py"/>
 		<node name="metric_analysis" pkg="tb_self_experimentation" type="metric_analysis.py"/>
-
+-->
 
 </launch>
