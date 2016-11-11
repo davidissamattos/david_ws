@@ -1,0 +1,5 @@
+float64 voice_feedback
+float64 step_feedback
+float64 hri_distance
+---
+float64 value

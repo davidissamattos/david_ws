@@ -17,6 +17,7 @@ Dependencies
     * http://jokla.me/robotics/speech-recognition-ros/
     * http://wiki.ros.org/pocketsphinx
     * http://www.speech.cs.cmu.edu/tools/lmtool.html
+    * Remember to run sudo apt-get install gstreamer0.10-gconf if there are problems in launching the recognizer
 * I changed the dependencies so I don't need the following packages anymore. But I will list them here anyway because they are the references for part of what I have modified
     * WASP Summer school packages and autonomous system course repo
     	* https://github.com/WASP2016
@@ -28,9 +29,18 @@ Dependencies
 
 Description of the packages
 * Pocketsphinx
-    *
+    * 
 * tb_simulation
-    *
+    * launch
 * tb_self_experimentation
-    *
+    * launch
+	*
+    * misc
+	*
+    * msg
+	*
+    * pynodes
+	*
+    * src
+	*
 

@@ -7,6 +7,6 @@
 
 
 	<!-- Debugging nodes. Nodes that should run on the turtlebot but we run here so we can debug more quickly -->
-		
+		<node name="version_manager" pkg="tb_self_experimentation" type="version_manager.py" output="screen" launch-prefix="xterm -e"/>
 	
 </launch>

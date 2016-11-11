@@ -16,8 +16,8 @@ typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseCl
 float hri_distance = 1.0;
 geometry_msgs::Pose2D apriltag_position;
 ros::Publisher pub;
-float something_x = 10;
-float something_y = 10;
+float distance_x = 10;
+float distance_y = 10;
 MoveBaseClient* ac;
 
 void getInput();
@@ -60,8 +60,8 @@ void approachApriltag()
 	goal.target_pose.header.frame_id = "/map";
 	goal.target_pose.header.stamp = ros::Time::now();
 	//setting the distance
-	goal.target_pose.pose.position.x = apriltag_position.x + hri_distance*cos(apriltag_position.theta);
-	goal.target_pose.pose.position.y = apriltag_position.y -hri_distance*sin(apriltag_position.theta);
+	goal.target_pose.pose.position.x = apriltag_position.x + hri_distance*cos(M_PI + apriltag_position.theta);
+	goal.target_pose.pose.position.y = apriltag_position.y + hri_distance*sin(M_PI+apriltag_position.theta);
 
 		//setting orientation
 	double angle = apriltag_position.theta;
@@ -115,8 +115,8 @@ void goAway()
 	goal.target_pose.pose.orientation.z = qt.z();
 	goal.target_pose.pose.orientation.w = qt.w();
 	//setting the distance
-	goal.target_pose.pose.position.x = something_x;
-	goal.target_pose.pose.position.y = something_y;
+	goal.target_pose.pose.position.x = distance_x;
+	goal.target_pose.pose.position.y = distance_y;
 
 	//Sending the goal and waiting for result	
 	ROS_INFO("Sending goal");
@@ -168,13 +168,13 @@ int main(int argc, char** argv)
 	 	{
 			nh.getParam("hri_distance", hri_distance);
 		}	
-		if (nh.hasParam("something_x"))
+		if (nh.hasParam("distance_x"))
 	 	{
-			nh.getParam("something_x", something_x);
+			nh.getParam("distance_x", distance_x);
 		}
-		if (nh.hasParam("something_y"))
+		if (nh.hasParam("distance_y"))
 	 	{
-			nh.getParam("something_y", something_y);
+			nh.getParam("distance_y", distance_y);
 		}
 	loop_rate.sleep();
 	ros::spinOnce();

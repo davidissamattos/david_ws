@@ -1,0 +1,4 @@
+float64 min_distance
+float64 max_distance
+---
+float64 distance

@@ -26,6 +26,12 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(Eigen REQUIRED)
 
+add_service_files(DIRECTORY srv
+  FILES
+  random_version.srv
+  analyze_feedback.srv
+)
+
 add_message_files(DIRECTORY msg
   FILES
   object_loc.msg
@@ -55,6 +61,10 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
 )
+
+
+install(PROGRAMS pynodes/voice_feedback.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 add_executable(approach_and_go src/approach_and_go.cpp)
 target_link_libraries(approach_and_go ${catkin_LIBRARIES})
