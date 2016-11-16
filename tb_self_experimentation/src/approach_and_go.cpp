@@ -8,23 +8,33 @@
 #include <actionlib/client/simple_action_client.h>
 #include <iostream> 
 #include <string>
-#include <boost/thread/thread.hpp> //ros does not support c++11
+#include <boost/thread/thread.hpp> //ros does not support c++11!!!
 using namespace std;
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
-float hri_distance = 1.0;
+//Some global ros variables
 geometry_msgs::Pose2D apriltag_position;
 ros::Publisher pub;
+
+// Parameters
+float hri_distance = 1.0;
+float feedbackDelay = 3;
 float distance_x = 10;
 float distance_y = 10;
+
+//Action client for sending goals
 MoveBaseClient* ac;
 
+//Function headers
 void getInput();
 void approachApriltag();
 void goAway();
 
-
+//This function is a simple keyboard input
+//If we press 'a' we approach the tag -> function approachAptriltag
+//If we press 's' we go to the point (distance_x, distance_y) -> function goAway
+//This function is suppose to run on a separate thread
 void getInput()
 {
 	while(ros::ok)
@@ -33,7 +43,7 @@ void getInput()
 		std::cout<<"Press 'a' to approach and 's' to go away"<<endl;
 		std::string result;    		
 		getline(cin,result);
-            cout<<"You entered '"<<result<<"'' "<< endl;
+            	cout<<"You entered '"<<result<<"'' "<< endl;
 		if(result=="a")
 			approachApriltag();
 		if(result=="s")
@@ -44,14 +54,18 @@ void getInput()
     
 }
 
+//This function just collect the current apriltag position and save it to the global variable apriltag_position
 void apriltagPositionCallback(const geometry_msgs::Pose2D &msg)
 {
 	apriltag_position.x = msg.x;
 	apriltag_position.y = msg.y;
 	apriltag_position.theta = msg.theta;
-	//cout<<"x: "<<apriltag_position.x<<" y: "<<apriltag_position.y<<"Theta: "<<apriltag_position.theta<<endl;
 }
 
+//This function calls the action to approach the tag
+//We send our goal on the /map frame
+//Our position is calculated so we approach the tag from the front with a distance of hri_position
+//The action is the MoveBaseClient. It is declared globally as the pointer ac
 void approachApriltag()
 {
 	ROS_INFO("Approaching tag");
@@ -62,8 +76,7 @@ void approachApriltag()
 	//setting the distance
 	goal.target_pose.pose.position.x = apriltag_position.x + hri_distance*cos(M_PI + apriltag_position.theta);
 	goal.target_pose.pose.position.y = apriltag_position.y + hri_distance*sin(M_PI+apriltag_position.theta);
-
-		//setting orientation
+	//setting orientation
 	double angle = apriltag_position.theta;
 	tf::Quaternion qt = tf::Quaternion();
 	qt.setRPY(0,0,angle);
@@ -72,24 +85,29 @@ void approachApriltag()
 	goal.target_pose.pose.orientation.z = qt.z();
 	goal.target_pose.pose.orientation.w = qt.w();
 
-	//Sending the goal and waiting for result	
+	//Debug messages.	
 	ROS_INFO("Apriltag position");
 	cout<<"x: "<<apriltag_position.x<<" y: "<<apriltag_position.y<<" Theta: "<<apriltag_position.theta<<endl;
-	//ROS_INFO("Distance x sin and cos");
-	//cout<<"sin: "<<hri_distance*sin(-apriltag_position.theta)<<" cos: "<<hri_distance*cos(-apriltag_position.theta)<<endl;
 	ROS_INFO("Goal position");
 	cout<<"x: "<<goal.target_pose.pose.position.x<<" y: "<<goal.target_pose.pose.position.y<<endl;
 	
+	//Sending the goal and waiting for the result of the goal
 	ROS_INFO("Sending goal");
 	ac->sendGoal(goal);
 	ac->waitForResult();
 
+	//If we actually got the the goal we publish true to the topic hri_distance/conclude_approach
 	if(ac->getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
 	{
 		ROS_INFO("Goal reached");
 		std_msgs::Bool signal;
+		//The base will delay a few seconds before doing anything else
+		//This will give us some time to give the feedback
+		ros::Duration(feedbackDelay).sleep();
 		signal.data = true;
 		pub.publish(signal);
+
+		
 	}	
 	else
 	{	
@@ -100,6 +118,9 @@ void approachApriltag()
 	}
 }
 
+
+//This function is very similar to the approach tag. But instead of going to the tag we go to a predefined point distance_x, distance_y)
+//However this function always publish false to the hri_distance/conclude_approach topic
 void goAway()
 {
 	ROS_INFO("Going away");
@@ -122,7 +143,6 @@ void goAway()
 	ROS_INFO("Sending goal");
 	cout<<"x: "<<goal.target_pose.pose.position.x<<" y: "<<goal.target_pose.pose.position.y<<endl;
 	ac->sendGoal(goal);
-
 	ac->waitForResult();
 
 	if(ac->getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
@@ -146,17 +166,18 @@ int main(int argc, char** argv)
 	ros::init(argc, argv, "approach_and_go");	
 	ros::NodeHandle nh;
 	//tell the action client that we want to spin a thread by default
+	// ac is a global pointer
 	ac = new MoveBaseClient("move_base", true);
 	//wait for the action server to come up
 	while(!ac->waitForServer(ros::Duration(5.0)))
 	{
 		ROS_INFO("Waiting for the move_base action server to come up");
-        ROS_INFO("See if the tb base is on");
+        	ROS_INFO("See if the turtlebot base is on");
 	}
 	
 	ros::Subscriber sub_pos = nh.subscribe("apriltag/global_position", 1, &apriltagPositionCallback);
 	pub = nh.advertise<std_msgs::Bool>("hri_distance/conclude_approach", 1); 
-	//Input thread
+	//Input thread -> the keyboard input does not hold the ROS node
 	boost::thread t1(getInput);
 	//Always update parameters before calling the callback function
 	ros::Rate loop_rate(10);
@@ -175,6 +196,10 @@ int main(int argc, char** argv)
 		if (nh.hasParam("distance_y"))
 	 	{
 			nh.getParam("distance_y", distance_y);
+		}
+		if (nh.hasParam("feedbackDelay"))
+	 	{
+			nh.getParam("feedbackDelay", feedbackDelay);
 		}
 	loop_rate.sleep();
 	ros::spinOnce();

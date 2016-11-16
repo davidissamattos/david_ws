@@ -30,6 +30,8 @@ add_service_files(DIRECTORY srv
   FILES
   random_version.srv
   analyze_feedback.srv
+  robot_feedback_service.srv
+  learn_service.srv
 )
 
 add_message_files(DIRECTORY msg

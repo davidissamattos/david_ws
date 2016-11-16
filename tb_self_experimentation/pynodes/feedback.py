@@ -55,9 +55,9 @@ class Feedback:
 		distance = self.calculateDistance(self.tb_position,self.apriltag_position)
 		self.hri_distance = rospy.get_param('hri_distance')
 		if distance > self.hri_distance + 0.4:
-			self.step_feedback = 0.0
+			self.step_feedback = -1.0
 		elif distance < self.hri_distance - 0.4:
-			self.step_feedback = 0.0
+			self.step_feedback = -1.0
 		else:
 			self.step_feedback = 1.0
 			
@@ -84,9 +84,9 @@ class Feedback:
 		if msg.data.find("good") > -1:
 			self.voice_feedback = 1.0   
 		if msg.data.find("close") > -1:
-			self.voice_feedback = 0.0
+			self.voice_feedback = -1.0
 		if msg.data.find("far") > -1:
-			self.voice_feedback = 0.0           
+			self.voice_feedback = -1.0           
 	
 	
 	# If we are done with the approaching we can send this data to the analyze_feedback service to process it
@@ -102,8 +102,8 @@ class Feedback:
 			except rospy.ServiceException, e:
 				print "Service call failed: %s"%e
 			#reseting the value of the voice output in case we dont give feedback next time			
-			self.voice_feedback = 1.0
-			self.step_feedback = 1.0
+			self.voice_feedback = 0.0
+			self.step_feedback = 0.0
 				
 			self.pub_step.publish(self.step_feedback)
 			self.pub_voice.publish(self.voice_feedback)
