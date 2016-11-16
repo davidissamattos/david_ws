@@ -39,8 +39,6 @@ class MetricAnalysis:
 		#Defining the services
 		#This service will be responsible for when we get data from the feedback.py we can calculate the value, save the data and learn
 		self.service = rospy.Service('hri_distance/analyze_feedback', analyze_feedback, self.analyzeFeedbackService)
-
-
 		#Dont let the node die
     		rospy.spin()
 	
