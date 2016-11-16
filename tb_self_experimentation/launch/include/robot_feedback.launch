@@ -1,6 +1,6 @@
 <launch>
 	<!-- Location of the images -->		
-	<param name="happy_image" value="/home/chalmers/david_ws//srctb_self_experimentation/misc/images/happy.png" />
+	<param name="happy_image" value="/home/chalmers/david_ws/src/tb_self_experimentation/misc/images/happy.png" />
 	<param name="sad_image" value="/home/chalmers/david_ws/src/tb_self_experimentation/misc/images/sad.png" />
 	<param name="flat_image" value="/home/chalmers/david_ws/src/tb_self_experimentation/misc/images/flat.png" />
 	<!-- Node -->	

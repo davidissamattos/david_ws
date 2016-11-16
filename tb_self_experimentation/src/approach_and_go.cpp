@@ -9,6 +9,7 @@
 #include <iostream> 
 #include <string>
 #include <boost/thread/thread.hpp> //ros does not support c++11!!!
+#include "tb_self_experimentation/robot_feedback_service.h"
 using namespace std;
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
@@ -16,6 +17,7 @@ typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseCl
 //Some global ros variables
 geometry_msgs::Pose2D apriltag_position;
 ros::Publisher pub;
+ros::ServiceClient client;
 
 // Parameters
 float hri_distance = 1.0;
@@ -68,6 +70,14 @@ void apriltagPositionCallback(const geometry_msgs::Pose2D &msg)
 //The action is the MoveBaseClient. It is declared globally as the pointer ac
 void approachApriltag()
 {
+	//Changing the face to flat
+	tb_self_experimentation::robot_feedback_service srv;
+	srv.request.face_type = "flat";
+	if (client.call(srv))
+	{
+		ROS_INFO("Flat face");
+	}	
+
 	ROS_INFO("Approaching tag");
 	move_base_msgs::MoveBaseGoal goal;
 	//Setting the header
@@ -177,6 +187,9 @@ int main(int argc, char** argv)
 	
 	ros::Subscriber sub_pos = nh.subscribe("apriltag/global_position", 1, &apriltagPositionCallback);
 	pub = nh.advertise<std_msgs::Bool>("hri_distance/conclude_approach", 1); 
+	//service for changing the robot face	
+	ros::ServiceClient client = nh.serviceClient<tb_self_experimentation::robot_feedback_service>("hri_distance/robot/face_feedback");
+
 	//Input thread -> the keyboard input does not hold the ROS node
 	boost::thread t1(getInput);
 	//Always update parameters before calling the callback function

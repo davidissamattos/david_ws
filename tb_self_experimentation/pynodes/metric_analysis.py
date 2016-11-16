@@ -45,6 +45,7 @@ class MetricAnalysis:
 		self.step_feedback = req.step_feedback
 		self.hri_distance = req.hri_distance
 		self.value = self.calculateValue(self.voice_feedback, self.step_feedback)
+		print self.value
 		#changing the face of the robot		
 		self.changeFace()
 		#saving the data
@@ -106,7 +107,7 @@ class MetricAnalysis:
 				response = change_face("flat")
 			if self.value == -1.0:
 				response = change_face("sad")
-			print "Value %f" %response.value
+			print response
 		except rospy.ServiceException, e:
 			print "Service call failed: %s"%e
 
