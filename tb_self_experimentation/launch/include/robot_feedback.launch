@@ -1,8 +1,8 @@
 <launch>
-	<!-- Reference tag number for the apriltag -->		
-	<param name="happy_image" value="/home/chalmers/david_ws/tb_self_experimentation/misc/images/happy.png" />
-	<param name="sad_image" value="/home/chalmers/david_ws/tb_self_experimentation/misc/images/sad.png" />
-	<param name="flat_image" value="/home/chalmers/david_ws/tb_self_experimentation/misc/images/flat.png" />
-	<!-- Actual detection -->	
+	<!-- Location of the images -->		
+	<param name="happy_image" value="/home/chalmers/david_ws//srctb_self_experimentation/misc/images/happy.png" />
+	<param name="sad_image" value="/home/chalmers/david_ws/src/tb_self_experimentation/misc/images/sad.png" />
+	<param name="flat_image" value="/home/chalmers/david_ws/src/tb_self_experimentation/misc/images/flat.png" />
+	<!-- Node -->	
 	<node name="robot_feedback" pkg="tb_self_experimentation" type="robot_feedback"/>
 </launch>
