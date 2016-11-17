@@ -53,7 +53,7 @@ class Feedback:
 	# If it stays still them it is a positive feedback. Value 1
 	def stepFeedback(self):
 		distance = self.calculateDistance(self.tb_position,self.apriltag_position)
-		self.hri_distance = rospy.get_param('hri_distance')
+		self.hri_distance = rospy.get_param('hri_distance/hri_distance')
 		if distance > self.hri_distance + 0.4:
 			self.step_feedback = -1.0
 		elif distance < self.hri_distance - 0.4:

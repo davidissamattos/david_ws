@@ -51,7 +51,6 @@ class MetricAnalysis:
 		self.step_feedback = req.step_feedback
 		self.hri_distance = req.hri_distance
 		self.value = self.calculateValue(self.voice_feedback, self.step_feedback)
-		print self.value
 		#changing the face of the robot		
 		self.changeFace()
 		#saving the data
@@ -61,7 +60,7 @@ class MetricAnalysis:
 		msg = data_stats()
 		msg.numberExperiments = self.number_experiments
 		msg.positiveFeedbackPercentage = self.positiveFeedbackPercentage
-		pub_stats.Publish(msg)
+		self.pub_stats.publish(msg)
 		return analyze_feedbackResponse(self.value)
 
 ################################################### Auxiliar functions
@@ -78,8 +77,6 @@ class MetricAnalysis:
 	#If we get a negative value we output -1 else we output 1
 	def calculateValue(self, voice_feedback, step_feedback):
 		value_interm = 0.8*(voice_feedback) + 0.2*(step_feedback)
-		if value_interm == 0.0:
-			value_iterm = 0.5
 		if value_interm > 0:
 			value = 1
 		else:
@@ -93,18 +90,19 @@ class MetricAnalysis:
 		csvfile.close()		
 		
 	def readData_CSVFile(self):
-		csvfile = open(self.logfile,'r')
-		reader = csv.reader(csvfile)
-		data = np.array(list(reader))
-		csvfile.close()
+		data = np.genfromtxt(self.logfile,delimiter=",")
 		return data
 
 	def dataStats(self):
 		data = self.readData_CSVFile()
-		self.number_experiments = len(data)
-		self.number_positive_feedbacks = len(data[:,data[:,1]==1]) #returns the len of a vector where the second column equals to 1
-		self.number_negative_feedbacks = len(data[:,data[:,1]==-1])
+		self.number_experiments = len(data[:,0])
+		print "N# of experiments: " + str(self.number_experiments)
+
+		self.number_positive_feedbacks = len(data[data[:,1]==1,:]) #returns the len of a vector where the second column equals to 1
+		print "N# of positive: " + str(self.number_positive_feedbacks)
+		self.number_negative_feedbacks = len(data[data[:,1]==-1,:])#returns the len of a vector where the second column equals to -1
 		self.positiveFeedbackPercentage = self.number_positive_feedbacks/self.number_experiments
+		print "%: " + str(self.positiveFeedbackPercentage)
 
 
 

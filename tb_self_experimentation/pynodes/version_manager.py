@@ -23,33 +23,28 @@ class Manager:
 	
 	def __init__(self):
 		self.pub = rospy.Publisher('hri_distance/new_distance', Float64, queue_size=1)
-		#Defining the services
-		#Uniform Random distance generator
-		# * we use the service version_manager defined in the srv folder
-		# * any new generator can define its on service		 
+		
+		#Defining the services	 
 		self.serviceRandom = rospy.Service('hri_distance/generate_random_version', set_distance, self.GenerateRandomDistance)
 		self.serviceSafe = rospy.Service('hri_distance/safe_version', set_distance, self.GenerateSafeDistance)
-		self.serviceLearn = rospy.Service('hri_distance/learn_version', set_distance, self.GenerateLearnedVersion)
+		self.serviceLearn = rospy.Service('hri_distance/learning_version', set_distance, self.GenerateLearningVersion)
 		self.serviceStatic = rospy.Service('hri_distance/static_version', set_distance, self.GenerateStaticVersion)
+		self.serviceLearnedStatic = rospy.Service('hri_distance/static_learned_version', set_distance, self.GenerateStaticLearnedVersion)
     	
 		#Dont let the node die
     		rospy.spin()
 
-
 	def GenerateStaticVersion(self, req):
 		#Get defined static value
-		if rospy.has_param('hri_distance/static_min_distance'):		
-			new_distance = rospy.get_param('hri_distance/static_min_distance')		
+		if rospy.has_param('hri_distance/static_distance'):		
+			new_distance = rospy.get_param('hri_distance/static_distance')		
 		else:
 			new_distance = 2
 		self.pub.Publish(new_distance)
 		return set_distanceResponse(new_distance)
 
 
-
-
-
-	def GenerateLearnedVersion(self, req):
+	def GenerateLearningVersion(self, req):
 		#learn()
 		
 		if rospy.has_param('hri_distance/learned_min_distance'):		
@@ -64,7 +59,15 @@ class Manager:
 		self.pub.Publish(new_distance)
 		return set_distanceResponse(new_distance)
 
-
+	def GenerateStaticLearnedVersion(self, req):
+		#Get defined static value
+		#learn static
+		if rospy.has_param('hri_distance/static_distance'):		
+			new_distance = rospy.get_param('hri_distance/static_distance')		
+		else:
+			new_distance = 2
+		self.pub.Publish(new_distance)
+		return set_distanceResponse(new_distance)
 
 
 	#safe distance comes from parameters

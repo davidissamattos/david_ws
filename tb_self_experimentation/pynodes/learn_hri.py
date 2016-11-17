@@ -4,5 +4,3 @@
 Machine Learning class for the HRI problem
 """
 
-
-

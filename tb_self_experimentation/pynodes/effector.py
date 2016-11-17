@@ -15,7 +15,7 @@ from std_msgs.msg import Float64
 class Effector:
 #
 	def __init__(self):
-		rospy.Subscriber('hri_distance/new_distance', Float64, self.changeDistance
+		rospy.Subscriber('hri_distance/new_distance', Float64, self.changeDistance)
     		rospy.spin()
 
 	def changeDistance(self,msg):
@@ -25,5 +25,5 @@ class Effector:
 #Main execution of the version manager
 if __name__=="__main__":
 	rospy.init_node('effector')
-	StopExperiment()
+	Effector()
 
