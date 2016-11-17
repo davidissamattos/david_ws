@@ -1,6 +1,8 @@
 <launch>
 	<!-- Reference tag number for the apriltag -->		
-	<param name="id_ref" value="1" />
+	<param name="apriltag/id_ref" value="1" />
+
+
 	<!-- Actual detection -->	
 	<node name="apriltag_detection" pkg="tb_self_experimentation" type="apriltag_detection"/>
 	<!-- Filtering only the tag id_ref -->	

@@ -34,10 +34,10 @@ int main(int argc, char **argv)
 	ros::NodeHandle nh;
 	
 	//Getting parameter name id for the april tag	
-	if (nh.hasParam("id_ref"))
+	if (nh.hasParam("apriltag/id_ref"))
  	{
  		// Found parameter, can now query it using param_name
-		nh.getParam("id_ref", id_ref);
+		nh.getParam("apriltag/id_ref", id_ref);
 		std::cout<<"Using id_ref  "<<id_ref<<std::endl;
 	}
 	else

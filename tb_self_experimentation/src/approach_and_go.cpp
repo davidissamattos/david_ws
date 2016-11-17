@@ -17,7 +17,7 @@ typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseCl
 //Some global ros variables
 geometry_msgs::Pose2D apriltag_position;
 ros::Publisher pub;
-ros::ServiceClient client;
+ros::ServiceClient serviceclient;
 
 // Parameters
 float hri_distance = 1.0;
@@ -45,7 +45,7 @@ void getInput()
 		std::cout<<"Press 'a' to approach and 's' to go away"<<endl;
 		std::string result;    		
 		getline(cin,result);
-            	cout<<"You entered '"<<result<<"'' "<< endl;
+            	cout<<"You entered '"<<result<<"'"<< endl;
 		if(result=="a")
 			approachApriltag();
 		if(result=="s")
@@ -73,7 +73,7 @@ void approachApriltag()
 	//Changing the face to flat
 	tb_self_experimentation::robot_feedback_service srv;
 	srv.request.face_type = "flat";
-	if (client.call(srv))
+	if (serviceclient.call(srv))
 	{
 		ROS_INFO("Flat face");
 	}	
@@ -133,6 +133,14 @@ void approachApriltag()
 //However this function always publish false to the hri_distance/conclude_approach topic
 void goAway()
 {
+	//Changing to flat face
+	tb_self_experimentation::robot_feedback_service srv;
+	srv.request.face_type = "flat";
+	if (serviceclient.call(srv))
+	{
+		ROS_INFO("Flat face");
+	}
+	
 	ROS_INFO("Going away");
 	move_base_msgs::MoveBaseGoal goal;
 	//setting the header
@@ -188,7 +196,7 @@ int main(int argc, char** argv)
 	ros::Subscriber sub_pos = nh.subscribe("apriltag/global_position", 1, &apriltagPositionCallback);
 	pub = nh.advertise<std_msgs::Bool>("hri_distance/conclude_approach", 1); 
 	//service for changing the robot face	
-	ros::ServiceClient client = nh.serviceClient<tb_self_experimentation::robot_feedback_service>("hri_distance/robot/face_feedback");
+	serviceclient = nh.serviceClient<tb_self_experimentation::robot_feedback_service>("hri_distance/robot/face_feedback");
 
 	//Input thread -> the keyboard input does not hold the ROS node
 	boost::thread t1(getInput);
@@ -198,21 +206,21 @@ int main(int argc, char** argv)
 	{
 		//Getting parameters for experimenting
 		//Updating these parameters every loop
-		if (nh.hasParam("hri_distance"))
+		if (nh.hasParam("hri_distance/hri_distance"))
 	 	{
-			nh.getParam("hri_distance", hri_distance);
+			nh.getParam("hri_distance/hri_distance", hri_distance);
 		}	
-		if (nh.hasParam("distance_x"))
+		if (nh.hasParam("hri_distance/distance_x"))
 	 	{
-			nh.getParam("distance_x", distance_x);
+			nh.getParam("hri_distance/distance_x", distance_x);
 		}
-		if (nh.hasParam("distance_y"))
+		if (nh.hasParam("hri_distance/distance_y"))
 	 	{
-			nh.getParam("distance_y", distance_y);
+			nh.getParam("hri_distance/distance_y", distance_y);
 		}
-		if (nh.hasParam("feedbackDelay"))
+		if (nh.hasParam("hri_distance/feedbackDelay"))
 	 	{
-			nh.getParam("feedbackDelay", feedbackDelay);
+			nh.getParam("hri_distance/feedback_delay", feedbackDelay);
 		}
 	loop_rate.sleep();
 	ros::spinOnce();

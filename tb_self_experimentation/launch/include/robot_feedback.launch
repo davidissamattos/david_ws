@@ -1,8 +1,9 @@
 <launch>
 	<!-- Location of the images -->		
-	<param name="happy_image" value="/home/chalmers/david_ws/src/tb_self_experimentation/misc/images/happy.png" />
-	<param name="sad_image" value="/home/chalmers/david_ws/src/tb_self_experimentation/misc/images/sad.png" />
-	<param name="flat_image" value="/home/chalmers/david_ws/src/tb_self_experimentation/misc/images/flat.png" />
+	<param name="hri_distance/happy_image" value="/home/chalmers/david_ws/src/tb_self_experimentation/misc/images/happy.png" />
+	<param name="hri_distance/sad_image" value="/home/chalmers/david_ws/src/tb_self_experimentation/misc/images/sad.png" />
+	<param name="hri_distance/flat_image" value="/home/chalmers/david_ws/src/tb_self_experimentation/misc/images/flat.png" />
+
 	<!-- Node -->	
 	<node name="robot_feedback" pkg="tb_self_experimentation" type="robot_feedback"/>
 </launch>

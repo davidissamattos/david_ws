@@ -1,7 +1,0 @@
-<launch>
-	<!-- Turtlebot initialization and slam -->
-	<include file = "$(find turtlebot_bringup)/launch/minimal.launch" />
-	<include file = "$(find turtlebot_navigation)/launch/amcl_demo.launch" />
-	<!-- Running April tags detection and TF -->
-	<include file="$(find tb_self_experimentation)/launch/include/apriltag_filter.launch" />
-</launch>

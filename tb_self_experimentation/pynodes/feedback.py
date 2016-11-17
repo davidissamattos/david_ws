@@ -77,7 +77,7 @@ class Feedback:
 		#print self.apriltag_position
 
 	#This callback function process the recognized voice strings into numbers
-	#Value 0 means negative feedback
+	#Value -1 means negative feedback
 	#Value 1 means positive feedback
 	def speechCallback(self, msg):
 		print msg
@@ -104,7 +104,7 @@ class Feedback:
 			#reseting the value of the voice output in case we dont give feedback next time			
 			self.voice_feedback = 0.0
 			self.step_feedback = 0.0
-				
+			#Just for debuging	
 			self.pub_step.publish(self.step_feedback)
 			self.pub_voice.publish(self.voice_feedback)
 					

@@ -73,20 +73,20 @@ int main(int argc, char **argv)
 	ros::ServiceServer service = nh.advertiseService("hri_distance/robot/face_feedback", robotFeedback);
 	
 	//Getting image parameters
-	if (nh.hasParam("happy_image"))
+	if (nh.hasParam("hri_distance/happy_image"))
  	{
  		// Found parameter, can now query it using param_name
-		nh.getParam("happy_image", happy_image);
+		nh.getParam("hri_distance/happy_image", happy_image);
 	}
-	if (nh.hasParam("sad_image"))
+	if (nh.hasParam("hri_distance/sad_image"))
  	{
  		// Found parameter, can now query it using param_name
-		nh.getParam("sad_image", sad_image);
+		nh.getParam("hri_distance/sad_image", sad_image);
 	}
-	if (nh.hasParam("flat_image"))
+	if (nh.hasParam("hri_distance/flat_image"))
  	{
  		// Found parameter, can now query it using param_name
-		nh.getParam("flat_image", flat_image);
+		nh.getParam("hri_distance/flat_image", flat_image);
 	}
 	
 	//show initial image

@@ -46,8 +46,8 @@ void updateMarkers(const geometry_msgs::PointStamped &msg)
 	
 	marker_pub.publish(marker);
 
-	nh->setParam("/distance_x",msg.point.x);
-	nh->setParam("/distance_y",msg.point.y);
+	nh->setParam("hri_distance/distance_x",msg.point.x);
+	nh->setParam("hri_distance/distance_y",msg.point.y);
 }
 
 int main( int argc, char** argv )

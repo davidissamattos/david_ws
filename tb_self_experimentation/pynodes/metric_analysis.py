@@ -11,6 +11,8 @@ import sys
 import csv
 from std_msgs.msg import Float64
 from tb_self_experimentation.srv import *
+from tb_self_experimentation.msg import *
+import numpy as np
 
 ##################################################
 #Class
@@ -27,20 +29,24 @@ class MetricAnalysis:
 		#self.logfile
 
 		#Initializing and getting parameters
-		if rospy.has_param('hri_logfile'):		
-			self.logfile = rospy.get_param('hri_logfile')
+		if rospy.has_param('hri_distance/hri_logfile'):		
+			self.logfile = rospy.get_param('hri_distance/hri_logfile')
 		else:
 			self.logfile = 'hri.csv'
 		
 		#Defining the services
 		#This service will be responsible for when we get data from the feedback.py we can calculate the value, save the data and learn
 		self.analyze_service = rospy.Service('hri_distance/analyze_feedback', analyze_feedback, self.analyzeFeedbackService)
-		self.learn_service = rospy.Service('hri_distance/learn', learn_service, self.learnService)
+
+		#Defining the publisher for the data stats
+		self.pub_stats = rospy.Publisher('hri_distance/feedback/stats', data_stats, queue_size=1)		
+
 		#Dont let the node die
     		rospy.spin()
 
 ################################################### Services callbacks	
 	def analyzeFeedbackService(self, req):
+		#Process the new feedback data		
 		self.voice_feedback = req.voice_feedback
 		self.step_feedback = req.step_feedback
 		self.hri_distance = req.hri_distance
@@ -50,15 +56,13 @@ class MetricAnalysis:
 		self.changeFace()
 		#saving the data
 		self.appendData_CSVFile()
+		#publishing some basic data about the experiment to the stop experiment module
+		self.dataStats()
+		msg = data_stats()
+		msg.numberExperiments = self.number_experiments
+		msg.positiveFeedbackPercentage = self.positiveFeedbackPercentage
+		pub_stats.Publish(msg)
 		return analyze_feedbackResponse(self.value)
-
-	def learnService(self, req):
-		response = learn_serviceResponse()
-		#response.max_distance =
-		#response.min_distance =
-		return response
-
-
 
 ################################################### Auxiliar functions
 	#Possible values for voice_feedback and step_feedback = (-1,0,1)
@@ -89,11 +93,19 @@ class MetricAnalysis:
 		csvfile.close()		
 		
 	def readData_CSVFile(self):
-		csvfile = open(self.logfile)
-		reader = list(csv.reader(csvfile))
-    		for column in reader:
-        		print(column[1])
+		csvfile = open(self.logfile,'r')
+		reader = csv.reader(csvfile)
+		data = np.array(list(reader))
 		csvfile.close()
+		return data
+
+	def dataStats(self):
+		data = self.readData_CSVFile()
+		self.number_experiments = len(data)
+		self.number_positive_feedbacks = len(data[:,data[:,1]==1]) #returns the len of a vector where the second column equals to 1
+		self.number_negative_feedbacks = len(data[:,data[:,1]==-1])
+		self.positiveFeedbackPercentage = self.number_positive_feedbacks/self.number_experiments
+
 
 
 ## Change the face of the robot using the robot_feedback service

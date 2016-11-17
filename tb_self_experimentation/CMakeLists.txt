@@ -28,16 +28,16 @@ find_package(Eigen REQUIRED)
 
 add_service_files(DIRECTORY srv
   FILES
-  random_version.srv
   analyze_feedback.srv
   robot_feedback_service.srv
-  learn_service.srv
+  set_distance.srv
 )
 
 add_message_files(DIRECTORY msg
   FILES
   object_loc.msg
   image_point.msg
+  data_stats.msg
 )
 
 generate_messages(
