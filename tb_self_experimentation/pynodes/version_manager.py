@@ -11,6 +11,8 @@ As this node just need to run once when we conclude approaching and we are ready
 import roslib
 import rospy
 import math
+import numpy as np
+import learn_hri as lh
 from std_msgs.msg import Float64
 import random
 from tb_self_experimentation.srv import *
@@ -22,8 +24,11 @@ class Manager:
 #
 	
 	def __init__(self):
+
+		self.UpdateParameters()		
+
 		self.pub = rospy.Publisher('hri_distance/new_distance', Float64, queue_size=1)
-		
+
 		#Defining the services	 
 		self.serviceRandom = rospy.Service('hri_distance/generate_random_version', set_distance, self.GenerateRandomDistance)
 		self.serviceSafe = rospy.Service('hri_distance/safe_version', set_distance, self.GenerateSafeDistance)
@@ -33,6 +38,18 @@ class Manager:
     	
 		#Dont let the node die
     		rospy.spin()
+
+
+	def UpdateParameters(self):
+		if rospy.has_param('hri_distance/hri_logfile'):		
+			self.logfile = rospy.get_param('hri_distance/hri_logfile')
+		else:
+			self.logfile = 'hri.csv'
+
+	def readData(self):
+		X = np.genfromtxt(self.logfile,delimiter=",")
+		return X
+
 
 	def GenerateStaticVersion(self, req):
 		#Get defined static value
@@ -45,28 +62,20 @@ class Manager:
 
 
 	def GenerateLearningVersion(self, req):
-		#learn()
-		
-		if rospy.has_param('hri_distance/learned_min_distance'):		
-			min_distance = rospy.get_param('hri_distance/learned_min_distance')		
-		else:
-			min_distance = 0.5
-		if rospy.has_param('hri_distance/learned_max_distance'):		
-			max_distance = rospy.get_param('hri_distance/learned_max_distance')		
-		else:
-			max_distance = 5
+		lhri = lh.learn_hri(self.readData)
+		min_distance = lhri.lowerDistance()
+		max_distance = lhri.higherDistance()
 		new_distance = 	random.uniform(min_distance,max_distance)
 		self.pub.Publish(new_distance)
+		lhri.saveGraphic()
 		return set_distanceResponse(new_distance)
 
 	def GenerateStaticLearnedVersion(self, req):
 		#Get defined static value
-		#learn static
-		if rospy.has_param('hri_distance/static_distance'):		
-			new_distance = rospy.get_param('hri_distance/static_distance')		
-		else:
-			new_distance = 2
+		lhri = lh.learn_hri(self.readData)
+		new_distance = lhri.bestDistance()
 		self.pub.Publish(new_distance)
+		lhri.saveGraphic()
 		return set_distanceResponse(new_distance)
 
 

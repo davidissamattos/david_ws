@@ -10,14 +10,11 @@
 	<param name="hri_distance/hri_distance" value="1.5" />	
 	<param name="hri_distance/safe_distance" value="2" />
 	<param name="hri_distance/static_distance" value="2" />
-	<param name="hri_distance/learned_max_distance" value="5" />
-	<param name="hri_distance/learned_min_distance" value="0.5" />
 	<param name="hri_distance/initial_max_distance" value="5" />
 	<param name="hri_distance/initial_min_distance" value="0.5" />
 	
 
 	<!-- Self-experimentation nodes -->
-
 		<node name="version_manager" pkg="tb_self_experimentation" type="version_manager.py" launch-prefix="xterm -e"/>
 
 		<node name="effector" pkg="tb_self_experimentation" type="effector.py" launch-prefix="xterm -e"/>
