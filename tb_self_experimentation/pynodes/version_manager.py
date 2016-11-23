@@ -68,6 +68,7 @@ class Manager:
 		new_distance = 	random.uniform(min_distance,max_distance)
 		self.pub.publish(new_distance)
 		lhri.saveGraphic()
+		print "Learned random distance between: " + str(min_distance) + " and " + str(max_distance)
 		return set_distanceResponse(new_distance)
 
 	def GenerateStaticLearnedVersion(self, req):
@@ -76,6 +77,7 @@ class Manager:
 		new_distance = lhri.bestDistance()
 		self.pub.publish(new_distance)
 		lhri.saveGraphic()
+		print "Setting a static learned distance of: " +str(new_distance)
 		return set_distanceResponse(new_distance)
 
 
@@ -85,6 +87,7 @@ class Manager:
 			new_distance = rospy.get_param('hri_distance/safe_distance')		
 		else:
 			new_distance = 2.0
+		print "Setting a safe distance of: " +str(new_distance)
 		self.pub.publish(new_distance)
 		return set_distanceResponse(new_distance)
 
@@ -102,6 +105,7 @@ class Manager:
 			max_distance = 5
 		new_distance = 	random.uniform(min_distance,max_distance)
 		self.pub.publish(new_distance)
+		print "Random distance between: " + str(min_distance) + " and " + str(max_distance)
 		return set_distanceResponse(new_distance)
 
 ###################################################
