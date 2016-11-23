@@ -17,6 +17,7 @@ class learn_hri:
     def __findClusters(self, X):
         self.km = KMeans(n_clusters=3, init='k-means++', n_init=10, max_iter=300, tol=1e-04, random_state=0)
         self.y_km = self.km.fit_predict(X)
+	self.saveGraphic()
 
     def lowerDistance(self):
         # mean between centroids lower and best

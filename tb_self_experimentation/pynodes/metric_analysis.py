@@ -3,7 +3,7 @@
 """
 
 """
-
+from __future__ import division
 import roslib
 import rospy
 import math
@@ -13,6 +13,7 @@ from std_msgs.msg import Float64
 from tb_self_experimentation.srv import *
 from tb_self_experimentation.msg import *
 import numpy as np
+
 
 ##################################################
 #Class
@@ -76,11 +77,13 @@ class MetricAnalysis:
 	#1         |-0.6  | 0.2      |1
 	#If we get a negative value we output -1 else we output 1
 	def calculateValue(self, voice_feedback, step_feedback):
+		print "voice_feedback " + str(voice_feedback) + " ,step_feedback " + str(step_feedback)
 		value_interm = 0.8*(voice_feedback) + 0.2*(step_feedback)
 		if value_interm > 0:
 			value = 1
 		else:
 			value = -1
+		print "Value " + str(value)
 		return value		
 	
 	def appendData_CSVFile(self):

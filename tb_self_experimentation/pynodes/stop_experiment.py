@@ -29,20 +29,29 @@ class StopExperiment:
 
 
 	def StatsCallback(self,msg):
-		self.number_experiments = msg.numberExperiments 
+		self.number_experiments = msg.numberExperiments
+		print "number of experiments: " + str(self.number_experiments)
+		print "number of experiments to learn: " + str(self.number_experiments_to_learn)
 		self.positiveFeedbackPercentage = msg.positiveFeedbackPercentage
+		print "% of positive: " + str(self.positiveFeedbackPercentage)
 		#updating parameter
 		self.UpdateParameters()
 		
 		#Experiment policy
 		#Crossover experiment		
 		if (self.number_experiments < self.number_experiments_to_learn):
+			print "Crossover mode -> full random"
+			self.pub.publish(constants.crossover_mode)
+		if (self.number_experiments > self.number_experiments_to_learn) and ((self.positiveFeedbackPercentage < self.positive_threshold) or (self.positiveFeedbackPercentage > self.negative_threshold)):
+			print "Crossover mode -> learn at each iteration"
 			self.pub.publish(constants.crossover_mode)
 		#Static mode		
 		if (self.number_experiments > self.number_experiments_to_learn) and self.positiveFeedbackPercentage > self.positive_threshold:
+			print "Static mode -> with learned version"
 			self.pub.publish(constants.static_mode)
 		#Safe mode		
 		if (self.number_experiments > self.number_experiments_to_learn) and self.positiveFeedbackPercentage < self.negative_threshold:
+			print "Safe mode"
 			self.pub.publish(constants.safe_mode)
 		#AB experiment
 		#Still to implement

@@ -57,24 +57,24 @@ class Manager:
 			new_distance = rospy.get_param('hri_distance/static_distance')		
 		else:
 			new_distance = 2
-		self.pub.Publish(new_distance)
+		self.pub.publish(new_distance)
 		return set_distanceResponse(new_distance)
 
 
 	def GenerateLearningVersion(self, req):
-		lhri = lh.learn_hri(self.readData)
+		lhri = lh.learn_hri(self.readData())
 		min_distance = lhri.lowerDistance()
 		max_distance = lhri.higherDistance()
 		new_distance = 	random.uniform(min_distance,max_distance)
-		self.pub.Publish(new_distance)
+		self.pub.publish(new_distance)
 		lhri.saveGraphic()
 		return set_distanceResponse(new_distance)
 
 	def GenerateStaticLearnedVersion(self, req):
 		#Get defined static value
-		lhri = lh.learn_hri(self.readData)
+		lhri = lh.learn_hri(self.readData())
 		new_distance = lhri.bestDistance()
-		self.pub.Publish(new_distance)
+		self.pub.publish(new_distance)
 		lhri.saveGraphic()
 		return set_distanceResponse(new_distance)
 
@@ -85,7 +85,7 @@ class Manager:
 			new_distance = rospy.get_param('hri_distance/safe_distance')		
 		else:
 			new_distance = 2.0
-		self.pub.Publish(new_distance)
+		self.pub.publish(new_distance)
 		return set_distanceResponse(new_distance)
 
 
@@ -101,7 +101,7 @@ class Manager:
 		else:
 			max_distance = 5
 		new_distance = 	random.uniform(min_distance,max_distance)
-		self.pub.Publish(new_distance)
+		self.pub.publish(new_distance)
 		return set_distanceResponse(new_distance)
 
 ###################################################

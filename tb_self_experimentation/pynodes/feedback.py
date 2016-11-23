@@ -24,8 +24,8 @@ class Feedback:
 		#Class variables
 		self.tb_position = Pose2D()
 		self.apriltag_position = Pose2D()
-		self.voice_feedback = 1.0
-		self.step_feedback = 1.0		
+		self.voice_feedback = 0.0
+		self.step_feedback = 0.0		
 
 		#Waiting for services
 		rospy.wait_for_service('hri_distance/analyze_feedback')
@@ -54,12 +54,16 @@ class Feedback:
 	def stepFeedback(self):
 		distance = self.calculateDistance(self.tb_position,self.apriltag_position)
 		self.hri_distance = rospy.get_param('hri_distance/hri_distance')
-		if distance > self.hri_distance + 0.4:
+		self.step_distance = rospy.get_param('hri_distance/step_distance')
+		if distance > self.hri_distance + self.step_distance:
 			self.step_feedback = -1.0
-		elif distance < self.hri_distance - 0.4:
+			print "Step back"
+		elif distance < self.hri_distance - self.step_distance:			
 			self.step_feedback = -1.0
+			print "Step forward"
 		else:
 			self.step_feedback = 1.0
+			print "No step"
 			
 
 
@@ -86,7 +90,9 @@ class Feedback:
 		if msg.data.find("close") > -1:
 			self.voice_feedback = -1.0
 		if msg.data.find("far") > -1:
-			self.voice_feedback = -1.0           
+			self.voice_feedback = -1.0    
+		else:
+			self.voice_feedback = 0.0       
 	
 	
 	# If we are done with the approaching we can send this data to the analyze_feedback service to process it
@@ -100,13 +106,16 @@ class Feedback:
 				response = analyze_feedback_service(self.voice_feedback, self.step_feedback , self.hri_distance)
 				print "Value %f" %response.value
 			except rospy.ServiceException, e:
-				print "Service call failed: %s"%e
-			#reseting the value of the voice output in case we dont give feedback next time			
+				print "Service call failed: %s"%e	
 			self.voice_feedback = 0.0
 			self.step_feedback = 0.0
 			#Just for debuging	
 			self.pub_step.publish(self.step_feedback)
 			self.pub_voice.publish(self.voice_feedback)
+		#reseting the value of the voice output in case we dont give feedback next time		
+		else:
+			self.voice_feedback = 0.0
+			self.step_feedback = 0.0
 					
 
 ################################# Main		

@@ -1,6 +1,6 @@
 <launch>
   	<!-- Visualization part: This include the file for the Rviz and the nodes that publish stuff in the Rviz -->
-		<include file = "$(find tb_self_experimentation)/launch/include/rviz_basestation.launch" />	
+		<include file = "$(find tb_self_experimentation)/launch/include/rviz_basestation.launch" />
 	
 	<!-- Commandline User interface to say when to approach and when to do something else. -->
 		<include file = "$(find tb_self_experimentation)/launch/include/approach.launch" />

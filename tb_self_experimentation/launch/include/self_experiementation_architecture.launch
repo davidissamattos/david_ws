@@ -10,8 +10,9 @@
 	<param name="hri_distance/hri_distance" value="1.5" />	
 	<param name="hri_distance/safe_distance" value="2" />
 	<param name="hri_distance/static_distance" value="2" />
-	<param name="hri_distance/initial_max_distance" value="5" />
-	<param name="hri_distance/initial_min_distance" value="0.5" />
+	<param name="hri_distance/initial_max_distance" value="2" />
+	<param name="hri_distance/initial_min_distance" value="0.2" />
+	<param name="hri_distance/step_distance" value="0.4" />
 	
 
 	<!-- Self-experimentation nodes -->

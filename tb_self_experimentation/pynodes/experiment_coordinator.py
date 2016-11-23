@@ -59,24 +59,29 @@ class ExperimentCoordinator:
 	def CrossoverExperimentMode(self):
 		if self.number_experiments < self.number_experiments_to_learn:
 			#call generate random version
-			#set a learned value or from the developers 
+			#set a learned value or from the developers
+			print "Generating random version/Crossover"
 			self.callService('hri_distance/generate_random_version')
 		else:
 			#call learningversion
+			print "Learning version/Crossover"
 			self.callService('hri_distance/learning_version')
 
 	def ABExperimentMode(self):
 		#set a defined value
-		#Set the AB experiment		
+		#Set the AB experiment
+		print "Static version/AB Experiment mode"		
 		self.callService('hri_distance/static_version')
 
 	def StaticMode(self):
-		#set a learned value or from the developers 
+		#set a learned value or from the developers
+		print "Static learned version"
 		self.callService('hri_distance/static_learned_version')
 
 	def SafeMode(self):
 		#set the safe mode value
 		#set a learned value or from the developers 
+		print "Going to safe mode"
 		self.callService('hri_distance/safe_version')
 
 	def callService(self, serviceString):
