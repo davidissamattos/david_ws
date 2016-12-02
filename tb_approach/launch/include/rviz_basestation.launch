@@ -1,0 +1,6 @@
+<launch>
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find tb_approach)/misc/rviz/self_experimentation.rviz"/>
+	 <node name="apriltag_rviz_markers" pkg="tb_approach" type="apriltag_rviz_markers"/>
+	 <node name="goal_rviz_markers" pkg="tb_approach" type="goal_rviz_markers"/>
+	 <node name="awaypoint_rviz_markers" pkg="tb_approach" type="awaypoint_rviz_markers"/>
+</launch>

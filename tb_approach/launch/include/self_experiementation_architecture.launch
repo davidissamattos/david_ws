@@ -1,0 +1,32 @@
+<launch>
+	<!-- Parameters -->		
+	<param name="hri_distance/hri_logfolder" value="/home/davidis/hri_log/" />
+	<param name="hri_distance/hri_logfile" value="/home/davidis/hri_log/hri.csv" />
+	<param name="hri_distance/number_experiments_to_learn" value="15" />
+	<param name="hri_distance/initial_mode" value="crossover" />	
+	<param name="hri_distance/positive_threshold" value="0.8" />
+	<param name="hri_distance/negative_threshold" value="0.3" />
+
+	<!-- Distance parameters for the version_manager -->
+	<param name="hri_distance/hri_distance" value="1.5" />	
+	<param name="hri_distance/safe_distance" value="2" />
+	<param name="hri_distance/static_distance" value="2" />
+	<param name="hri_distance/initial_max_distance" value="2" />
+	<param name="hri_distance/initial_min_distance" value="0.2" />
+	<param name="hri_distance/step_distance" value="0.4" />
+	
+
+	<!-- Self-experimentation nodes -->
+		<node name="version_manager" pkg="tb_approach" type="version_manager.py" launch-prefix="xterm -e"/>
+
+		<node name="effector" pkg="tb_approach" type="effector.py" launch-prefix="xterm -e"/>
+
+		<node name="experiment_coordinator" pkg="tb_approach" type="experiment_coordinator.py" launch-prefix="xterm -e"/>
+
+		<node name="feedback" pkg="tb_approach" type="feedback.py" launch-prefix="xterm -e"/>
+
+		<node name="metric_analysis" pkg="tb_approach" type="metric_analysis.py" launch-prefix="xterm -e"/>
+
+		<node name="stop_experiment" pkg="tb_approach" type="stop_experiment.py" launch-prefix="xterm -e"/>
+
+</launch>

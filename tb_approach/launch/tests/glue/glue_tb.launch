@@ -1,0 +1,12 @@
+<launch>
+	<!-- Turtlebot initialization and slam -->
+		<include file="$(find tb_approach)/launch/include/tb_initialization.launch" />
+	
+	<!-- Running April tags detection and TF -->
+		<include file="$(find tb_approach)/launch/include/apriltag_filter.launch" />
+
+	<!-- Robot feedback -->
+		<include file="$(find tb_approach)/launch/include/robot_feedback.launch" />
+
+
+</launch>

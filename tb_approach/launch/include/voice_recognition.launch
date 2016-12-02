@@ -1,0 +1,7 @@
+<launch>
+	<!-- Voice recognizer package from pocketsphinx -->
+		<node name="recognizer" pkg="pocketsphinx" type="recognizer.py">
+			<param name="lm" value="$(find tb_approach)/misc/voice_commands/3words/5419.lm"/>
+			<param name="dict" value="$(find tb_approach)/misc/voice_commands/3words/5419.dic"/>
+		</node>
+</launch>

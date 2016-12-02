@@ -1,0 +1,2 @@
+int64 numberExperiments
+float64 positiveFeedbackPercentage
