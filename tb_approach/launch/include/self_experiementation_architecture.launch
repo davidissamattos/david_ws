@@ -4,7 +4,7 @@
 	<param name="hri_distance/hri_logfile" value="/home/davidis/hri_log/hri.csv" />
 	<param name="hri_distance/number_experiments_to_learn" value="15" />
 	<param name="hri_distance/initial_mode" value="crossover" />	
-	<param name="hri_distance/positive_threshold" value="0.8" />
+	<param name="hri_distance/positive_threshold" value="0.7" />
 	<param name="hri_distance/negative_threshold" value="0.3" />
 
 	<!-- Distance parameters for the version_manager -->

@@ -76,7 +76,7 @@ class learn_hri:
         ax.legend()
         ax.grid()
         fig.savefig(path+'Clusters' + str(datetime.datetime.now()) + '.png')
-        #plt.close(1)
+        
 	#plt.show()	
 	print "Graphic saved"
 	
