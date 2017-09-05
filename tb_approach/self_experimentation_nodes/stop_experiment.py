@@ -10,8 +10,8 @@ import rospy
 import math
 import constants
 import random
-from tb_self_experimentation.srv import *
-from tb_self_experimentation.msg import *
+from tb_approach.srv import *
+from tb_approach.msg import *
 from std_msgs.msg import String
 
 

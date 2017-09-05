@@ -41,41 +41,41 @@ class learn_hri:
 
     def saveGraphic(self, path):
         # Plotting
-	print "Saving graphic"
-        fig, ax = plt.subplots()
-        ax.scatter(self.X[(self.y_km == 0), 0], self.X[(self.y_km == 0), 1],
-                    s=50,
-                    c='lightgreen',
-                    marker='o',
-                    #label='Close distance'
-		   )
-        ax.scatter(self.X[(self.y_km == 1), 0], self.X[(self.y_km == 1), 1],
-                    s=50,
-                    c='orange',
-                    marker='o',
-                    #label='Good distance'
- 		   )
-        ax.scatter(self.X[(self.y_km == 2), 0], self.X[(self.y_km == 2), 1],
-                    s=50,
-                    c='red',
-                    marker='o',
-                    #label='Far distance',
-		   )
-        # centroids
-        ax.scatter(self.cluster_ordered[:, 0], self.cluster_ordered[:, 1],
-                    s=50,
-                    c='black',
-                    marker='*',
-                    label='Centroids')
-        ax.axvline(self.lowerDistance())
-        ax.text(self.lowerDistance(), 0, 'Lower', rotation=0)
-        ax.axvline(self.higherDistance())
-        ax.text(self.higherDistance(), 0, 'Higher', rotation=0)
-        #plt.axvline(self.bestDistance())
-        #plt.text(self.bestDistance(), 0, 'Best', rotation=0)
-        ax.legend()
-        ax.grid()
-        fig.savefig(path+'Clusters' + str(datetime.datetime.now()) + '.png')
+	# print "Saving graphic"
+ #        fig, ax = plt.subplots()
+ #        ax.scatter(self.X[(self.y_km == 0), 0], self.X[(self.y_km == 0), 1],
+ #                    s=50,
+ #                    c='lightgreen',
+ #                    marker='o',
+ #                    #label='Close distance'
+	# 	   )
+ #        ax.scatter(self.X[(self.y_km == 1), 0], self.X[(self.y_km == 1), 1],
+ #                    s=50,
+ #                    c='orange',
+ #                    marker='o',
+ #                    #label='Good distance'
+ # 		   )
+ #        ax.scatter(self.X[(self.y_km == 2), 0], self.X[(self.y_km == 2), 1],
+ #                    s=50,
+ #                    c='red',
+ #                    marker='o',
+ #                    #label='Far distance',
+	# 	   )
+ #        # centroids
+ #        ax.scatter(self.cluster_ordered[:, 0], self.cluster_ordered[:, 1],
+ #                    s=50,
+ #                    c='black',
+ #                    marker='*',
+ #                    label='Centroids')
+ #        ax.axvline(self.lowerDistance())
+ #        ax.text(self.lowerDistance(), 0, 'Lower', rotation=0)
+ #        ax.axvline(self.higherDistance())
+ #        ax.text(self.higherDistance(), 0, 'Higher', rotation=0)
+ #        #plt.axvline(self.bestDistance())
+ #        #plt.text(self.bestDistance(), 0, 'Best', rotation=0)
+ #        ax.legend()
+ #        ax.grid()
+ #        fig.savefig(path+'Clusters' + str(datetime.datetime.now()) + '.png')
         
 	#plt.show()	
 	print "Graphic saved"

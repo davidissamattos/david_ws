@@ -14,7 +14,7 @@ from std_msgs.msg import Float64
 from std_msgs.msg import Bool
 from geometry_msgs.msg import Pose2D
 
-from tb_self_experimentation.srv import *
+from tb_approach.srv import *
 
 ##################################### Class definition
 

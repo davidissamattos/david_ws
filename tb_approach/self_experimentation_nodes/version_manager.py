@@ -15,7 +15,7 @@ import numpy as np
 import learn_hri as lh
 from std_msgs.msg import Float64
 import random
-from tb_self_experimentation.srv import *
+from tb_approach.srv import *
 
 
 ###################################################

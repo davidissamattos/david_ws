@@ -10,8 +10,8 @@ import math
 
 import random
 from std_msgs.msg import String
-from tb_self_experimentation.srv import *
-from tb_self_experimentation.msg import *
+from tb_approach.srv import *
+from tb_approach.msg import *
 import constants
 
 
