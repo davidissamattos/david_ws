@@ -14,9 +14,9 @@
 
 using namespace std;
 using namespace cv;
-std::string happy_image = "/home/chalmers/david_ws/src/tb_approach/misc/images/happy.png";
-std::string sad_image = "/home/chalmers/david_ws/src/tb_approach/misc/images/sad.png";
-std::string flat_image = "/home/chalmers/david_ws/src/tb_approach/misc/images/flat.png";
+std::string happy_image = "/home/david/david_ws/src/tb_approach/misc/images/happy.png";
+std::string sad_image = "/home/david/david_ws/src/tb_approach/misc/images/sad.png";
+std::string flat_image = "/home/david/david_ws/src/tb_approach/misc/images/flat.png";
 
 bool robotFeedback(tb_approach::robot_feedback_service::Request  &req, tb_approach::robot_feedback_service::Response &res)
 {
