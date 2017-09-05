@@ -6,7 +6,6 @@
 		<include file = "$(find tb_approach)/launch/include/approach.launch" />
 
 	<!-- Debugging nodes. Nodes that should run on the turtlebot but we run here so we can debug more quickly -->
-		<include file = "$(find tb_approach)/launch/include/voice_recognition.launch" />
 		<include file = "$(find tb_approach)/launch/include/self_experiementation_architecture.launch" />
 	
 </launch>
