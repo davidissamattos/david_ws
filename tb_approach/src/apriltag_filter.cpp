@@ -2,7 +2,7 @@
 
 #include <ros/ros.h>
 //ROS Messages
-#include "tb_self_experimentation/object_loc.h"
+#include "tb_approach/object_loc.h"
 #include <std_msgs/Float64.h>
 #include <std_msgs/Bool.h>
 using namespace std;
@@ -12,7 +12,7 @@ ros::Publisher pub;
 //If no parameters are found we use tag id=0
 int id_ref = 0;
 
-void filterTag_object_location(const tb_self_experimentation::object_loc &msg)
+void filterTag_object_location(const tb_approach::object_loc &msg)
 {
 	//Filtering the data
 	int id = msg.ID;
@@ -48,7 +48,7 @@ int main(int argc, char **argv)
 	//Declaring and setting the subscriber
 	ros::Subscriber sub = nh.subscribe("apriltag/object_location", 1, &filterTag_object_location);
 	//Setting the publisher
-	pub = nh.advertise<tb_self_experimentation::object_loc>("apriltag/distance/", 1);
+	pub = nh.advertise<tb_approach::object_loc>("apriltag/distance/", 1);
 	ros::spin();
 }
 

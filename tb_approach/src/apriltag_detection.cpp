@@ -37,8 +37,8 @@ using namespace std;
 #include "opencv2/opencv.hpp"
 
 //custom messages
-#include "tb_self_experimentation/object_loc.h"
-#include "tb_self_experimentation/image_point.h"
+#include "tb_approach/object_loc.h"
+#include "tb_approach/image_point.h"
 
 
 
@@ -214,7 +214,7 @@ public:
     double yaw, pitch, roll;
     wRo_to_euler(fixed_rot, yaw, pitch, roll);
     //Message to publish the APril tag ID's collected
-    tb_self_experimentation::object_loc location;
+    tb_approach::object_loc location;
     location.ID = detection.id;
     location.point.x = translation(0);
     location.point.y = translation(1);
@@ -274,7 +274,7 @@ public:
       for (int i=0; i<detections.size(); i++) {
         // also highlight in the image
         detections[i].draw(image);
-        tb_self_experimentation::image_point imag_p;
+        tb_approach::image_point imag_p;
         imag_p.ID = detections[i].id;
         imag_p.point.x = detections[i].cxy.first;
         imag_p.point.y = detections[i].cxy.second;
@@ -340,9 +340,9 @@ int main(int argc, char* argv[]) {
 //Here we define were we are getting our image from
 	image_transport::Subscriber sub = it.subscribe("camera/rgb/image_raw", 1, imageCallback);
 //To what topic we are publishing. The coordinates in x y z in respect to the camera	
-	object_location_pub = nh.advertise<tb_self_experimentation::object_loc>("apriltag/object_location", 1);
+	object_location_pub = nh.advertise<tb_approach::object_loc>("apriltag/object_location", 1);
 //We are publishing apriltag data relatively to the image itself	
-	image_location_pub = nh.advertise<tb_self_experimentation::image_point>("apriltag/image_location", 1);
+	image_location_pub = nh.advertise<tb_approach::image_point>("apriltag/image_location", 1);
 	image_pub = nh.advertise<sensor_msgs::Image>("apriltag/output_video", 1);
 	cout << "Image Subscriber executed"<<endl;
 	ros::spin();

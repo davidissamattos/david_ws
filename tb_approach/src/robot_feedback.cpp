@@ -2,8 +2,8 @@
 
 #include <ros/ros.h>
 //ROS Messages
-#include "tb_self_experimentation/object_loc.h"
-#include "tb_self_experimentation/robot_feedback_service.h"
+#include "tb_approach/object_loc.h"
+#include "tb_approach/robot_feedback_service.h"
 #include <std_msgs/Float64.h>
 #include <std_msgs/Bool.h>
 #include <string>
@@ -14,11 +14,11 @@
 
 using namespace std;
 using namespace cv;
-std::string happy_image = "/home/chalmers/david_ws/src/tb_self_experimentation/misc/images/happy.png";
-std::string sad_image = "/home/chalmers/david_ws/src/tb_self_experimentation/misc/images/sad.png";
-std::string flat_image = "/home/chalmers/david_ws/src/tb_self_experimentation/misc/images/flat.png";
+std::string happy_image = "/home/chalmers/david_ws/src/tb_approach/misc/images/happy.png";
+std::string sad_image = "/home/chalmers/david_ws/src/tb_approach/misc/images/sad.png";
+std::string flat_image = "/home/chalmers/david_ws/src/tb_approach/misc/images/flat.png";
 
-bool robotFeedback(tb_self_experimentation::robot_feedback_service::Request  &req, tb_self_experimentation::robot_feedback_service::Response &res)
+bool robotFeedback(tb_approach::robot_feedback_service::Request  &req, tb_approach::robot_feedback_service::Response &res)
 {
 	if(req.face_type == "happy")//Positive feedback
 	{

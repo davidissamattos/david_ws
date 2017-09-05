@@ -9,7 +9,7 @@
 #include <iostream> 
 #include <string>
 #include <boost/thread/thread.hpp> //ros does not support c++11!!!
-#include "tb_self_experimentation/robot_feedback_service.h"
+#include "tb_approach/robot_feedback_service.h"
 using namespace std;
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
@@ -71,7 +71,7 @@ void apriltagPositionCallback(const geometry_msgs::Pose2D &msg)
 void approachApriltag()
 {
 	//Changing the face to flat
-	tb_self_experimentation::robot_feedback_service srv;
+	tb_approach::robot_feedback_service srv;
 	srv.request.face_type = "flat";
 	if (serviceclient.call(srv))
 	{
@@ -134,7 +134,7 @@ void approachApriltag()
 void goAway()
 {
 	//Changing to flat face
-	tb_self_experimentation::robot_feedback_service srv;
+	tb_approach::robot_feedback_service srv;
 	srv.request.face_type = "flat";
 	if (serviceclient.call(srv))
 	{
@@ -196,7 +196,7 @@ int main(int argc, char** argv)
 	ros::Subscriber sub_pos = nh.subscribe("apriltag/global_position", 1, &apriltagPositionCallback);
 	pub = nh.advertise<std_msgs::Bool>("hri_distance/conclude_approach", 1); 
 	//service for changing the robot face	
-	serviceclient = nh.serviceClient<tb_self_experimentation::robot_feedback_service>("hri_distance/robot/face_feedback");
+	serviceclient = nh.serviceClient<tb_approach::robot_feedback_service>("hri_distance/robot/face_feedback");
 
 	//Input thread -> the keyboard input does not hold the ROS node
 	boost::thread t1(getInput);
